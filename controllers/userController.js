@@ -20,11 +20,16 @@ router.post('/users', async (req, res) => {
 
 router.get('/users/:id', async (req, res) => {
     try {
-        const existingUser = await userService.getUserById(req.params);
-        if (existingUser === null) {
-            res.status(400).json({ message: 'Bad Request' });
-        } else {
-            res.status(201).json(existingUser);
+        let userStudyGuides = await userService.getUserStudyGuides(req.params);
+        switch (userStudyGuides) {
+            case 0:
+                res.status(400).json({ message: 'Bad Request' });
+                break;
+            case 1:
+                res.status(204).send();
+                break;
+            default:
+                res.status(201).json(userStudyGuides);
         }
     } catch (error) {
         console.error(error);

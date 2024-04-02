@@ -15,12 +15,12 @@ class UserService {
         return await userModel.createUser(userData);
     }
 
-    async getUserById(userData) {
+    async getUserStudyGuides(userData) {
         const postKeys = Object.keys(userData);
         if (!postKeys.includes('id')) {
-            return null;
+            return 0;
         }
-        return await userModel.readUser(userData);
+        return await userModel.readUserStudyGuides(userData);
     }
 
     async updateUser(userId, updatedUserData) {
