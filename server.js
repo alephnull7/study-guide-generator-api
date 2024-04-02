@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // Routes
-app.use('/api', userController); // Mount user routes under '/api/users'
+app.use('/api/users', userController); // Mount user routes under '/api/users'
 
 // Start the server
 app.listen(PORT, () => {

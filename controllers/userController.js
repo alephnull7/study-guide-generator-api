@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userService = require('../services/userService');
 
-router.post('/users', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const newUser = await userService.createUser(req.body);
         if (newUser === null) {
@@ -16,7 +16,7 @@ router.post('/users', async (req, res) => {
     }
 });
 
-router.get('/users/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         console.log(req.params);
         let currentUser = await userService.getUser(req.params);
@@ -36,7 +36,7 @@ router.get('/users/:id', async (req, res) => {
     }
 });
 
-router.put('/users', async (req, res) => {
+router.put('/', async (req, res) => {
     try {
         let updatedUser = await userService.updateUser(req.body);
         console.log(updatedUser);
@@ -56,7 +56,7 @@ router.put('/users', async (req, res) => {
     }
 });
 
-router.delete('/users', async (req, res) => {
+router.delete('/', async (req, res) => {
     try {
         let deletedUser = await userService.deleteUser(req.body);
         console.log(deletedUser);
