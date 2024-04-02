@@ -7,7 +7,7 @@ class UserService {
         const neededFields = ['email', 'account_type'];
         for (let field of neededFields) {
             if (!postKeys.includes(field)) {
-                return null;
+                return 0;
             }
         }
         return await userModel.createUser(userData);
