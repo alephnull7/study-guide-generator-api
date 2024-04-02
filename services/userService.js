@@ -14,8 +14,8 @@ class UserService {
     }
 
     async getUser(userData) {
-        const postKeys = Object.keys(userData);
-        if (!postKeys.includes('id')) {
+        const getKeys = Object.keys(userData);
+        if (!getKeys.includes('id')) {
             return 0;
         }
         return await userModel.getUser(userData);
