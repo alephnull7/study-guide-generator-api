@@ -1,8 +1,6 @@
-// userController.js
 const express = require('express');
 const router = express.Router();
 const userService = require('../services/userService');
-const {status} = require("express/lib/response");
 
 router.post('/users', async (req, res) => {
     try {
@@ -20,8 +18,9 @@ router.post('/users', async (req, res) => {
 
 router.get('/users/:id', async (req, res) => {
     try {
-        let userStudyGuides = await userService.getUserStudyGuides(req.params);
-        switch (userStudyGuides) {
+        console.log(req.params);
+        let currentUser = await userService.getUser(req.params);
+        switch (currentUser) {
             case 0:
                 res.status(400).json({ message: 'Bad Request' });
                 break;
@@ -29,7 +28,47 @@ router.get('/users/:id', async (req, res) => {
                 res.status(204).send();
                 break;
             default:
-                res.status(201).json(userStudyGuides);
+                res.status(201).json(currentUser);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+router.put('/users', async (req, res) => {
+    try {
+        let updatedUser = await userService.updateUser(req.body);
+        console.log(updatedUser);
+        switch (updatedUser) {
+            case 0:
+                res.status(400).json({ message: 'Bad Request' });
+                break;
+            case 1:
+                res.status(204).send();
+                break;
+            default:
+                res.status(201).json(updatedUser);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+router.delete('/users', async (req, res) => {
+    try {
+        let deletedUser = await userService.deleteUser(req.body);
+        console.log(deletedUser);
+        switch (deletedUser) {
+            case 0:
+                res.status(400).json({ message: 'Bad Request' });
+                break;
+            case 1:
+                res.status(204).send();
+                break;
+            default:
+                res.status(201).json(deletedUser);
         }
     } catch (error) {
         console.error(error);

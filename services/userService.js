@@ -1,6 +1,4 @@
-// userService.js
 const UserModel = require('../models/userModel');
-const {status} = require("express/lib/response");
 const userModel = new UserModel();
 
 class UserService {
@@ -15,23 +13,31 @@ class UserService {
         return await userModel.createUser(userData);
     }
 
-    async getUserStudyGuides(userData) {
+    async getUser(userData) {
         const postKeys = Object.keys(userData);
         if (!postKeys.includes('id')) {
             return 0;
         }
-        return await userModel.readUserStudyGuides(userData);
+        return await userModel.getUser(userData);
     }
 
-    async updateUser(userId, updatedUserData) {
-        // Validate updated user data (if necessary)
-        // Perform any business logic related to updating a user
-        return await userModel.updateUser(userId, updatedUserData);
+    async updateUser(userData) {
+        const putKeys = Object.keys(userData);
+        const neededFields = ['email', 'id'];
+        for (let field of neededFields) {
+            if (!putKeys.includes(field)) {
+                return 0;
+            }
+        }
+        return await userModel.updateUser(userData);
     }
 
-    async deleteUser(userId) {
-        // Perform any business logic related to deleting a user
-        return await userModel.deleteUser(userId);
+    async deleteUser(userData) {
+        const deleteKeys = Object.keys(userData);
+        if (!deleteKeys.includes('id')) {
+            return 0;
+        }
+        return await userModel.deleteUser(userData);
     }
 }
 
