@@ -15,16 +15,21 @@ class ClassroomModel {
         return rows[0];
     }
 
-    async getClassroom(classroomData) {
+    async getClassrooms(classroomData) {
         const query =
-            `SELECT * FROM ${this.tableName} WHERE _id = $1`;
+            `SELECT classroom._id AS classroom_id, classroom.name AS classroom_name, 
+                users._id AS student_id, users.email AS student_email
+            FROM classroom
+            JOIN classroom_student ON classroom._id = classroom_student.classroom_id
+            JOIN users ON classroom_student.student_id = users._id
+            WHERE instructed = $1`;
         console.log(query);
         const values = [classroomData.id];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
             return 1;
         }
-        return rows[0];
+        return rows;
     }
 
 

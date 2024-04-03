@@ -8,9 +8,9 @@ class ClassroomService {
         return await serviceModel(userData, neededFields, classroomModel.createClassroom(userData));
     }
 
-    async getClassroom(userData) {
+    async getClassrooms(userData) {
         const neededFields = ['id'];
-        return await serviceModel(userData, neededFields, classroomModel.getClassroom(userData));
+        return await serviceModel(userData, neededFields, classroomModel.getClassrooms(userData));
     }
 
     async addToClassroom(userData) {
