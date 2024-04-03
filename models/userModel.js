@@ -7,9 +7,9 @@ class UserModel {
 
     async createUser(userData) {
         const query =
-            `INSERT INTO ${this.tableName} (email, account_type) VALUES ($1, $2) RETURNING *`;
+            `INSERT INTO ${this.tableName} (email, account_type, password) VALUES ($1, $2, $3) RETURNING *`;
         console.log(query);
-        const values = [userData.email, userData.account_type];
+        const values = [userData.email, userData.account_type, userData.password];
         const { rows } = await pool.query(query, values);
         return rows[0];
     }
