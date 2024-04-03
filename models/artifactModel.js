@@ -6,8 +6,15 @@ class ArtifactModel {
     }
 
     async readUserStudyGuides(userData) {
-        let studyGuides = await this.readUserOwnedStudyGuides(userData);
-        studyGuides = studyGuides.concat(await this.readUserAssignedStudyGuides(userData));
+        let studyGuides = [];
+        const ownedStudyGuides = await this.readUserOwnedStudyGuides(userData);
+        if (typeof ownedStudyGuides !== 'number') {
+            studyGuides = studyGuides.concat(ownedStudyGuides);
+        }
+        const assignedStudyGuides = await this.readUserAssignedStudyGuides(userData);
+        if (typeof assignedStudyGuides !== 'number') {
+            studyGuides = studyGuides.concat(assignedStudyGuides);
+        }
         return studyGuides;
     }
 
