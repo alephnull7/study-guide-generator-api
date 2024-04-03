@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    await controlService(req, res, classroomService.getClassroom(req.params));
+    await controlService(req, res, classroomService.getClassrooms(req.params));
 });
 
 router.get('/all/:id', async (req, res) => {
