@@ -13,6 +13,11 @@ class ClassroomService {
         return await serviceModel(userData, neededFields, classroomModel.getClassroom(userData));
     }
 
+    async getClassrooms(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, classroomModel.getClassrooms(userData));
+    }
+
     async addToClassroom(userData) {
         const neededFields = ['id', 'students'];
         return await serviceModel(userData, neededFields, classroomModel.addToClassroom(userData));
