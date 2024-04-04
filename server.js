@@ -21,7 +21,7 @@ app.use('/api/classrooms', classroomController);
 
 // Handle undefined routes
 app.use((req, res) => {
-    res.status(404).send('404 - Not Found');
+    res.status(404).json({message: 'Not Found'});
 });
 
 // Start the server
