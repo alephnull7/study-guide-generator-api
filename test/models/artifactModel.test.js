@@ -8,3 +8,4 @@ describe("getStudyGuides", () => {
         expect(response[0].name).toEqual('calculus');
     });
 });
+
