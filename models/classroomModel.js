@@ -20,8 +20,8 @@ class ClassroomModel {
             `SELECT classroom._id AS classroom_id, classroom.name AS classroom_name, 
                 users._id AS student_id, users.email AS student_email
             FROM classroom
-            JOIN classroom_student ON classroom._id = classroom_student.classroom_id
-            JOIN users ON classroom_student.student_id = users._id
+            LEFT JOIN classroom_student ON classroom._id = classroom_student.classroom_id
+            LEFT JOIN users ON classroom_student.student_id = users._id
             WHERE instructed = $1`;
         console.log(query);
         const values = [classroomData.id];
