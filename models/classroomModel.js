@@ -32,22 +32,6 @@ class ClassroomModel {
         return rows;
     }
 
-    async getClassrooms(classroomData) {
-        const query =
-            `SELECT classroom._id AS classroom_id, classroom.name AS classroom_name, users._id AS user_id, users.email
-            FROM classroom
-            JOIN classroom_student ON classroom._id = classroom_student.classroom_id
-            JOIN users ON classroom_student.student_id = users._id
-            WHERE classroom.instructed = $1`;
-        console.log(query);
-        const values = [classroomData.id];
-        const { rows } = await pool.query(query, values);
-        if (rows.length === 0) {
-            return 1;
-        }
-        return rows;
-    }
-
     async addToClassroom(classroomData) {
         const students = classroomData.students;
         const id = classroomData.id;
