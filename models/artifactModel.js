@@ -26,7 +26,6 @@ class ArtifactModel {
         if (rows.length === 0) {
             return 1;
         }
-        console.log(rows);
         return rows;
     }
 
@@ -43,7 +42,6 @@ class ArtifactModel {
         if (rows.length === 0) {
             return 1;
         }
-        console.log(rows);
         return rows;
     }
 
