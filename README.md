@@ -40,10 +40,6 @@ study-guide-generator_api/
 │   └── classroomService.js
 │   └── userService.js
 ├── test/
-│   ├── integration/
-│   │   ├── TODO
-│   ├── unit/
-│   │   ├── TODO
 ├── .gitignore
 ├── LICENSE
 ├── README.md
