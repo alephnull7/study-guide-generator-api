@@ -15,6 +15,9 @@ class ArtifactModel {
         if (typeof assignedStudyGuides !== 'number') {
             studyGuides = studyGuides.concat(assignedStudyGuides);
         }
+        if (studyGuides.length === 0) {
+            return 1;
+        }
         return studyGuides;
     }
 
