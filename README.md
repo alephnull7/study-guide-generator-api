@@ -68,10 +68,8 @@ study-guide-generator_api/
 * `pg`
 
 ### Dev
-* `chai`
-* `mocha`
+* `jest`
 * `nodemon`
-* `sinon`
 
 ## Deployment
 
@@ -95,12 +93,17 @@ npm install
 4. Access database credentials and make them available in the execution environment, 
 such as an `.env` file at the project root.
 
-5. Start the development server:
+5. Test the package
+```bash
+npm run test
+```
+
+6. Start the development server:
 ```bash
 npm run dev
 ```
 
-6. Open your browser and visit `http://localhost:3000` to access the API, or with an appropriate API client.
+7. Open your browser and visit `http://localhost:3000` to access the API, or with an appropriate API client.
 
 ## Operation
 

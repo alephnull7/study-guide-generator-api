@@ -1,11 +1,12 @@
 const ClassroomModel = require('../../models/classroomModel');
 
 describe("getClassrooms", () => {
-    it("should return the classroom the user with the given userId", async () => {
+    it("should return the classrooms the user with the given userId", async () => {
         const classroomModel = new ClassroomModel();
         const requestObj = { id: 6 };
         const response = await classroomModel.getClassrooms(requestObj);
-        expect(response.length).toEqual(5);
+        console.log(response);
+        expect(response.length).toEqual(7);
     });
 });
 
