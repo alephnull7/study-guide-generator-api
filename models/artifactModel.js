@@ -6,21 +6,29 @@ class ArtifactModel {
     }
 
     async readUserStudyGuides(userData) {
-        let studyGuides = await this.readUserOwnedStudyGuides(userData);
-        studyGuides = studyGuides.concat(await this.readUserAssignedStudyGuides(userData));
+        let studyGuides = [];
+        const ownedStudyGuides = await this.readUserOwnedStudyGuides(userData);
+        if (typeof ownedStudyGuides !== 'number') {
+            studyGuides = studyGuides.concat(ownedStudyGuides);
+        }
+        const assignedStudyGuides = await this.readUserAssignedStudyGuides(userData);
+        if (typeof assignedStudyGuides !== 'number') {
+            studyGuides = studyGuides.concat(assignedStudyGuides);
+        }
+        if (studyGuides.length === 0) {
+            return 1;
+        }
         return studyGuides;
     }
 
     async readUserOwnedStudyGuides(userData) {
         const query =
             `SELECT * FROM ${this.tableName} WHERE owner = $1 AND artifact_type = 1`;
-        console.log(query);
         const values = [userData.id];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
             return 1;
         }
-        console.log(rows);
         return rows;
     }
 
@@ -32,20 +40,17 @@ class ArtifactModel {
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
             JOIN users ON classroom_student.student_id = users._id
             WHERE users._id = $1 AND artifact_type = 1`;
-        console.log(query);
         const values = [userData.id];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
             return 1;
         }
-        console.log(rows);
         return rows;
     }
 
     async readUserQuizzes(userData) {
         const query =
             `SELECT * FROM ${this.tableName} WHERE owner = $1 AND artifact_type = 2`;
-        console.log(query);
         const values = [userData.id];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {

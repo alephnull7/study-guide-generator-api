@@ -11,6 +11,10 @@ router.get('/:id', async (req, res) => {
     await controlService(req, res, classroomService.getClassrooms(req.params));
 });
 
+router.get('/all/:id', async (req, res) => {
+    await controlService(req, res, classroomService.getClassrooms(req.params));
+});
+
 router.put('/add', async (req, res) => {
     await controlService(req, res, classroomService.addToClassroom(req.body));
 });
