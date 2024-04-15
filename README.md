@@ -124,7 +124,7 @@ Below are the defined routes and expected behavior by the API.
   {
   "email": email, 
   "account_type": int,
-  "password": password
+  "uid": string
   }
   ```
 * PUT
@@ -152,7 +152,8 @@ Below are the defined routes and expected behavior by the API.
 ### Classrooms
 
 * GET
-  * `/api/classrooms/:id`: returns all the students and their assigned classrooms, for classrooms instructed by instructor user corresponding to `id`
+  * `/api/classrooms/:id`: returns the students for the classroom corresponding to `id`
+  * `/api/classrooms/all/:id`: returns all the students and their assigned classrooms, for classrooms instructed by instructor user corresponding to `id`
 * POST
   * `/api/classroom`: creates the classroom corresponding to the information in the below body
   ```json lines
@@ -162,29 +163,43 @@ Below are the defined routes and expected behavior by the API.
   }
   ```
 * PUT
-  * `/api/classroom/add`: adds students to a classroom, corresponding to a classroom `id` and student id array
+  * `/api/classrooms`: updates the classroom corresponding to the information in the below body
+  ```json lines
+  {
+  "name": string, 
+  "id": int
+  }
+  ```
+  * `/api/classroom/students/add`: adds students to a classroom, corresponding to a classroom `id` and student id array
   ```json lines
   {
   "id": int, 
   "students": [int, ...]
   }
   ```
-  * `/api/classroom/remove`: removes students from a classroom, corresponding to a classroom `id` and student id array
+  * `/api/classroom/students/remove`: removes students from a classroom, corresponding to a classroom `id` and student id array
   ```json lines
   {
   "id": int, 
   "students": [int, ...]
   }
   ```
-  * `/api/classroom/assign`: adds an artifact to a classroom, corresponding to a classroom `id` and artifact id array
+  * `/api/classroom/artifacts/add`: adds an artifact to a classroom, corresponding to a classroom `id` and artifact id array
   ```json lines
   {
   "id": int, 
   "artifacts": [int, ...]
   }
   ```
+  * `/api/classroom/artifacts/remove`: removes artifacts from a classroom, corresponding to a classroom `id` and artifact id array
+  ```json lines
+  {
+  "id": int, 
+  "students": [int, ...]
+  }
+  ```
 * DELETE
-  * `/api/users`: deletes the classroom corresponding to the information in the below body
+  * `/api/classroom`: deletes the classroom corresponding to the information in the below body
   ```json lines
   {
   "id": int

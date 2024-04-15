@@ -8,27 +8,35 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    await controlService(req, res, classroomService.getClassrooms(req.params));
+    await controlService(req, res, classroomService.getClassroom(req.params));
 });
 
 router.get('/all/:id', async (req, res) => {
     await controlService(req, res, classroomService.getClassrooms(req.params));
 });
 
-router.put('/add', async (req, res) => {
-    await controlService(req, res, classroomService.addToClassroom(req.body));
-});
-
-router.put('/remove', async (req, res) => {
-    await controlService(req, res, classroomService.removeFromClassroom(req.body));
-});
-
-router.put('/assign', async (req, res) => {
-    await controlService(req, res, classroomService.assignToClassroom(req.body));
+router.put('/', async (req, res) => {
+    await controlService(req, res, classroomService.updateClassroom(req.body));
 });
 
 router.delete('/', async (req, res) => {
     await controlService(req, res, classroomService.deleteClassroom(req.body));
+});
+
+router.put('/students/add', async (req, res) => {
+    await controlService(req, res, classroomService.addStudents(req.body));
+});
+
+router.put('/students/remove', async (req, res) => {
+    await controlService(req, res, classroomService.removeStudents(req.body));
+});
+
+router.put('/artifacts/add', async (req, res) => {
+    await controlService(req, res, classroomService.addArtifacts(req.body));
+});
+
+router.put('/artifacts/remove', async (req, res) => {
+    await controlService(req, res, classroomService.removeArtifacts(req.body));
 });
 
 module.exports = router;
