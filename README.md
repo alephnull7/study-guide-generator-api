@@ -124,7 +124,7 @@ Below are the defined routes and expected behavior by the API.
   {
   "email": email, 
   "account_type": int,
-  "password": password
+  "uid": string
   }
   ```
 * PUT
