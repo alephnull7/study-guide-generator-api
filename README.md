@@ -122,7 +122,6 @@ Below are the defined routes and expected behavior by the API.
   * `/api/users`: creates the user corresponding to the information in the below body
   ```json lines
   {
-  "email": email, 
   "account_type": int,
   "uid": string
   }

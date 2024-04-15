@@ -4,7 +4,7 @@ const userModel = new UserModel();
 
 class UserService {
     async createUser(userData) {
-        const neededFields = ['email', 'account_type', 'uid'];
+        const neededFields = ['account_type', 'uid'];
         return await serviceModel(userData, neededFields, userModel.createUser(userData));
     }
 
