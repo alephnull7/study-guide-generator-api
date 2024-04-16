@@ -6,6 +6,9 @@ function relayResponse(req, res, result) {
         case 1:
             res.status(204).send();
             break;
+        case 2:
+            res.status(401).json({ message: 'Unauthorized' });
+            break;
         default:
             const successCode = getSuccessCode(req.method);
             res.status(successCode).json(result);
