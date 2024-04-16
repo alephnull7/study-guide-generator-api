@@ -7,7 +7,11 @@ router.post('/', async (req, res) => {
     await controlService(req, res, userService.createUser(req.body));
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/auth', async (req, res) => {
+    await controlService(req, res, userService.loginUser(req.body));
+});
+
+router.get('/:uid', async (req, res) => {
     await controlService(req, res, userService.getUser(req.params));
 });
 
