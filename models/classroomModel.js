@@ -7,8 +7,8 @@ class ClassroomModel {
 
     async createClassroom(classroomData) {
         const query =
-            `INSERT INTO ${this.tableName} (name, instructed) VALUES ($1, $2) RETURNING *`;
-        const values = [classroomData.name, classroomData.user_id];
+            `INSERT INTO ${this.tableName} (name, instructed, course) VALUES ($1, $2, $3) RETURNING *`;
+        const values = [classroomData.name, classroomData.user_id, classroomData.course];
         const { rows } = await pool.query(query, values);
         return rows[0];
     }
