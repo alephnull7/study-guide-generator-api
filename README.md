@@ -21,14 +21,17 @@ This README provides an overview of the backend structure, dependencies, and how
 
 ```
 study-guide-generator_api/
+├── artifactGeneration/
+│   ├── artifactCreation.js
 ├── controllers/
 │   ├── helpers/
 │   │   ├── helpers.js
 │   ├── artifactController.js
 │   └── classroomController.js
 │   └── userController.js
-├── db/
+├── config/
 │   ├── db.js
+│   ├── fireBase.js
 ├── models/
 │   ├── artifactModel.js
 │   └── classroomModel.js
@@ -51,7 +54,9 @@ study-guide-generator_api/
 * `controllers/`: Routes entity traffic to corresponding service based upon additional path specification and request type
 * `services/`: Performs request validation and calls the appropriate model
 * `models/`: Queries the database corresponding to valid request
-* `db/db.js`: Connection to the database, with configuration thereof by environment variables
+* `config/db.js`: Connection to the database, with configuration thereof by environment variables
+* `config/fireBase.js`: Connection to Firebase authentication, with configuration thereof by environment variables
+* `artifactGeneration`: Modules related to creation of artifacts using OpenAI
 * `test/`: Unit and integration tests 
 
 ## Dependencies
@@ -61,6 +66,8 @@ study-guide-generator_api/
 * `cors`
 * `dotenv`
 * `express`
+* `firebase`
+* `openai`
 * `pg`
 
 ### Dev
@@ -86,7 +93,7 @@ cd study-guide-generator-api
 npm install
 ```
 
-4. Access database credentials and make them available in the execution environment, 
+4. Access database, Firebase, and OpenAI credentials and make them available in the execution environment, 
 such as an `.env` file at the project root.
 
 5. Test the package
@@ -152,15 +159,38 @@ Below are the defined routes and expected behavior by the API.
 
 ### Artifacts
 
+* POST
+  * `/api/artifacts/templates`: creates the artifact template corresponding to the information in the below body
+  ```json lines
+  {
+  "messages": json,
+  "type": int,
+  "name": string,
+  "course": int
+  }
+  ```
+  * `/api/artifacts`: creates the artifact corresponding to the information in the below body
+  ```json lines
+  {
+  "user_id": int,
+  "template_id": int,
+  "name": string
+  }
+  ```
 * GET
-  * `/api/artifacts/study-guides/:id`: returns the study guide info for the study guide corresponding to `id`
-  * `/api/artifacts/quizzes/:id`: returns the quiz info for the quiz corresponding to `id`
+  * `/api/artifacts/study-guides/:id`: returns the study guides for the user corresponding to `id`
+  * `/api/artifacts/quizzes/:id`: returns the quizzes for the user corresponding to `id`
+  * `/api/artifacts/departments`: returns the records for all departments
+  * `/api/artifacts/courses`: returns the records for all courses
+  * `/api/artifacts/courses/:id`: returns the courses for the department corresponding to `id`
+  * `/api/artifacts/courses/templates/:id`: returns the templates for the course corresponding to `id`
+  * `/api/artifacts/templates/:id`: returns the template corresponding to `id`
 
 ### Classrooms
 
 * GET
   * `/api/classrooms/:id`: returns the students for the classroom corresponding to `id`
-  * `/api/classrooms/all/:id`: returns all the students and their assigned classrooms, for classrooms instructed by instructor user corresponding to `id`
+  * `/api/classrooms/instructors/:id`: returns all the students and their assigned classrooms, for classrooms instructed by instructor user corresponding to `id`
 * POST
   * `/api/classroom`: creates the classroom corresponding to the information in the below body
   ```json lines
