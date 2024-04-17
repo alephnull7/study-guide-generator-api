@@ -23,7 +23,10 @@ class ArtifactModel {
 
     async readUserOwnedStudyGuides(userData) {
         const query =
-            `SELECT * FROM ${this.tableName} WHERE owner = $1 AND artifact_type = 1`;
+            `SELECT artifact._id AS artifact_id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
+            FROM artifact
+            JOIN artifact_template ON artifact.template = artifact_template._id
+            WHERE owner = $1 AND type = 1`;
         const values = [userData.id];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
@@ -34,12 +37,13 @@ class ArtifactModel {
 
     async readUserAssignedStudyGuides(userData) {
         const query =
-            `SELECT artifact._id, artifact.artifact_type, artifact.name, artifact.content
+            `SELECT artifact._id AS artifact_id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
             FROM artifact
             JOIN classroom_artifact ON artifact._id = classroom_artifact.artifact_id
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
             JOIN users ON classroom_student.student_id = users._id
-            WHERE users._id = $1 AND artifact_type = 1`;
+            JOIN artifact_template ON artifact.template = artifact_template._id
+            WHERE users._id = $1 AND type = 1`;
         const values = [userData.id];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
