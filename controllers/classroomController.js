@@ -11,7 +11,7 @@ router.get('/:id', async (req, res) => {
     await controlService(req, res, classroomService.getClassroom(req.params));
 });
 
-router.get('/all/:id', async (req, res) => {
+router.get('/instructors/:id', async (req, res) => {
     await controlService(req, res, classroomService.getClassrooms(req.params));
 });
 
