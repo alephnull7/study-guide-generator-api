@@ -16,7 +16,7 @@ class ClassroomModel {
     async getClassroom(classroomData) {
         const query =
             `SELECT classroom._id AS classroom_id, classroom.name AS classroom_name, 
-                users._id AS student_id, users.email AS student_email
+                users._id AS student_id, users.username AS student_username
             FROM classroom
             LEFT JOIN classroom_student ON classroom._id = classroom_student.classroom_id
             LEFT JOIN users ON classroom_student.student_id = users._id
@@ -32,7 +32,7 @@ class ClassroomModel {
     async getClassrooms(classroomData) {
         const query =
             `SELECT classroom._id AS classroom_id, classroom.name AS classroom_name, 
-                users._id AS student_id, users.email AS student_email
+                users._id AS student_id, users.username AS student_username
             FROM classroom
             LEFT JOIN classroom_student ON classroom._id = classroom_student.classroom_id
             LEFT JOIN users ON classroom_student.student_id = users._id
