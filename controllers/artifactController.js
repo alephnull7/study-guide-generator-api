@@ -11,6 +11,10 @@ router.post('/', async (req, res) => {
     await controlService(req, res, artifactService.createArtifact(req.body));
 })
 
+router.get('/:id', async (req, res) => {
+    await controlService(req, res, artifactService.readArtifact(req.params));
+});
+
 router.get('/study-guides/:id', async (req, res) => {
     await controlService(req, res, artifactService.readUserStudyGuides(req.params));
 });
