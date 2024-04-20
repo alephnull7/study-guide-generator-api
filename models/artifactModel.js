@@ -24,6 +24,17 @@ class ArtifactModel {
         return rows[0];
     }
 
+    async readArtifact(userData) {
+        const query =
+            `SELECT * FROM ${this.tableName} WHERE _id = $1`;
+        const values = [userData.id];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows[0];
+    }
+
     async readUserStudyGuides(userData) {
         let studyGuides = [];
         const ownedStudyGuides = await this.readUserOwnedStudyGuides(userData);

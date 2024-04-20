@@ -13,6 +13,11 @@ class ArtifactService {
         return await serviceModel(userData, neededFields, artifactModel.createArtifact(userData));
     }
 
+    async readArtifact(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, artifactModel.readArtifact(userData));
+    }
+
     async readUserStudyGuides(userData) {
         const neededFields = ['id'];
         return await serviceModel(userData, neededFields, artifactModel.readUserStudyGuides(userData));
