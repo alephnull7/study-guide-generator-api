@@ -3,19 +3,9 @@ const serviceModel = require("./helpers/helpers");
 const userModel = new UserModel();
 
 class UserService {
-    async createUser(userData) {
-        const neededFields = ['email', 'password', 'account_type'];
-        return await serviceModel(userData, neededFields, userModel.createUser(userData));
-    }
-
     async getUser(userData) {
         const neededFields = ['uid'];
         return await serviceModel(userData, neededFields, userModel.getUser(userData));
-    }
-
-    async loginUser(userData) {
-        const neededFields = ['email', 'password'];
-        return await serviceModel(userData, neededFields, userModel.loginUser(userData));
     }
 
     async updateUser(userData) {

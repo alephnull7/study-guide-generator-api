@@ -121,6 +121,26 @@ Below are the defined routes and expected behavior by the API.
 * A successful POST request will return a status code of 201
 * A successful GET, PUT, or DELETE request will return a status code of 200
 
+### Auth
+
+* GET
+  * `/api/auth`: returns authentication credentials for the user corresponding to the information in the below body
+  ```json lines
+  {
+  "email": string,
+  "password": string,
+  }
+  ```
+* POST
+  * `/api/auth`: creates the user corresponding to the information in the below body
+  ```json lines
+  {
+  "email": string,
+  "password": string,
+  "account_type": int
+  }
+  ```
+
 ### Users
 
 * GET

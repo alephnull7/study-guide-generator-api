@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const userController = require('./controllers/userController');
 const artifactController = require('./controllers/artifactController');
 const classroomController = require('./controllers/classroomController');
+const authController = require('./controllers/authController');
 const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 
@@ -18,6 +19,7 @@ app.use(cors());
 app.use('/api/users', userController); // Mount user routes under '/api/users'
 app.use('/api/artifacts', artifactController);
 app.use('/api/classrooms', classroomController);
+app.use('/api/auth', authController);
 
 // Handle undefined routes
 app.use((req, res) => {
