@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const artifactService = require('../services/artifactService');
 const controlService = require("./helpers/helpers");
+const authenticateUser = require("../middleware/authentication");
+
+router.use(authenticateUser);
 
 router.post('/templates', async (req, res) => {
     await controlService(req, res, artifactService.createArtifactTemplate(req.body));

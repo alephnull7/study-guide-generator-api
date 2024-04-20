@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const classroomService = require('../services/classroomService');
 const controlService = require("./helpers/helpers");
+const authenticateUser = require("../middleware/authentication");
+
+router.use(authenticateUser);
 
 router.post('/', async (req, res) => {
     await controlService(req, res, classroomService.createClassroom(req.body));

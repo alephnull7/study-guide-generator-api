@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const userService = require('../services/userService');
 const controlService = require("./helpers/helpers");
+const authenticateUser = require("../middleware/authentication");
+
+router.use(authenticateUser);
 
 router.get('/:uid', async (req, res) => {
     await controlService(req, res, userService.getUser(req.params));
