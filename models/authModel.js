@@ -1,5 +1,5 @@
 const pool = require('../config/db');
-const auth = require('../config/fireBase');
+const { auth } = require('../config/fireBase');
 const { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } = require("firebase/auth");
 
 class AuthModel {
