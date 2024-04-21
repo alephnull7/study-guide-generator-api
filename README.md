@@ -123,21 +123,20 @@ Below are the defined routes and expected behavior by the API.
 
 ### Auth
 
-* GET
-  * `/api/auth`: returns authentication credentials for the user corresponding to the information in the below body
-  ```json lines
-  {
-  "email": string,
-  "password": string,
-  }
-  ```
 * POST
-  * `/api/auth`: creates the user corresponding to the information in the below body
+  * `/api/auth/create`: creates the user corresponding to the information in the below body
   ```json lines
   {
   "email": string,
   "password": string,
   "account_type": int
+  }
+  ```
+  * `/api/auth/login`: returns authentication credentials for the user corresponding to the information in the below body
+  ```json lines
+  {
+  "email": string,
+  "password": string,
   }
   ```
 
