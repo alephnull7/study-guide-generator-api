@@ -1,6 +1,8 @@
 const pool = require('../config/db');
 const { auth } = require('../config/fireBase');
 const { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } = require("firebase/auth");
+const UserModel = require("./userModel");
+const serviceModel = require("../services/helpers/helpers");
 
 class AuthModel {
     constructor() {
@@ -18,10 +20,10 @@ class AuthModel {
             const query =
                 `INSERT INTO ${this.tableName} (username, account_type, uid) VALUES ($1, $2, $3) RETURNING *`;
             const values = [userData.email.split('@')[0], userData.account_type, uid];
-            await pool.query(query, values);
+            const user = await pool.query(query, values);
 
             const token = await userCredential.user.getIdToken();
-            return { token, uid };
+            return { token, uid, username: user.username };
         } catch (e) {
             console.error(e);
             return 0;
@@ -33,7 +35,10 @@ class AuthModel {
             const userCredential = await signInWithEmailAndPassword(auth, userData.email, userData.password);
             const uid = userCredential.user.uid;
             const token = await userCredential.user.getIdToken();
-            return { token, uid };
+
+            const tempData = { uid };
+            const user = await serviceModel(tempData, ['uid'], new UserModel().getUser(tempData));
+            return { token, uid, username: user.username };
         } catch (e) {
             console.error(e);
             return 2;
