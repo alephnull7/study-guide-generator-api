@@ -180,8 +180,8 @@ Below are the defined routes and expected behavior by the API.
   }
   ```
 * GET
-  * `/api/artifacts/study-guides/:id`: returns the study guides for the user corresponding to `id`
-  * `/api/artifacts/quizzes/:id`: returns the quizzes for the user corresponding to `id`
+  * `/api/artifacts/study-guides/:uid`: returns the study guides for the user corresponding to `uid`
+  * `/api/artifacts/quizzes/:uid`: returns the quizzes for the user corresponding to `uid`
   * `/api/artifacts/departments`: returns the records for all departments
   * `/api/artifacts/courses`: returns the records for all courses
   * `/api/artifacts/courses/:id`: returns the courses for the department corresponding to `id`
@@ -192,13 +192,14 @@ Below are the defined routes and expected behavior by the API.
 
 * GET
   * `/api/classrooms/:id`: returns the students for the classroom corresponding to `id`
-  * `/api/classrooms/instructors/:id`: returns all the students and their assigned classrooms, for classrooms instructed by instructor user corresponding to `id`
+  * `/api/classrooms/instructors/:uid`: returns all the students and their assigned classrooms, for classrooms instructed by user corresponding to `uid`
 * POST
   * `/api/classroom`: creates the classroom corresponding to the information in the below body
   ```json lines
   {
-  "user_id": int, 
-  "name": string
+  "uid": int, 
+  "name": string,
+  "course": string
   }
   ```
 * PUT

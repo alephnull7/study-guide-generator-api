@@ -1,4 +1,6 @@
 const pool = require('../config/db');
+const serviceModel = require("../services/helpers/helpers");
+const UserModel = require("./userModel");
 
 class ClassroomModel {
     constructor() {
@@ -6,9 +8,12 @@ class ClassroomModel {
     }
 
     async createClassroom(classroomData) {
+        const tempData = { uid: classroomData.uid };
+        const user = await serviceModel(tempData, ['uid'], new UserModel().getUser(tempData));
+
         const query =
             `INSERT INTO ${this.tableName} (name, instructed, course) VALUES ($1, $2, $3) RETURNING *`;
-        const values = [classroomData.name, classroomData.user_id, classroomData.course];
+        const values = [classroomData.name, user._id, classroomData.course];
         const { rows } = await pool.query(query, values);
         return rows[0];
     }
@@ -32,12 +37,13 @@ class ClassroomModel {
     async getClassrooms(classroomData) {
         const query =
             `SELECT classroom._id AS classroom_id, classroom.name AS classroom_name, 
-                users._id AS student_id, users.username AS student_username
+                student.uid AS student_id, student.username AS student_username
             FROM classroom
             LEFT JOIN classroom_student ON classroom._id = classroom_student.classroom_id
-            LEFT JOIN users ON classroom_student.student_id = users._id
-            WHERE instructed = $1`;
-        const values = [classroomData.id];
+            LEFT JOIN users student ON classroom_student.student_id = student._id
+            LEFT JOIN users instructor ON classroom.instructed = instructor._id
+            WHERE instructor.uid = $1`;
+        const values = [classroomData.uid];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
             return 1;

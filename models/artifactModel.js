@@ -56,8 +56,9 @@ class ArtifactModel {
             `SELECT artifact._id AS artifact_id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
             FROM artifact
             JOIN artifact_template ON artifact.template = artifact_template._id
-            WHERE owner = $1 AND type = 1`;
-        const values = [userData.id];
+            JOIN users on artifact.owner = users._id
+            WHERE users.uid = $1 AND type = 1`;
+        const values = [userData.uid];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
             return 1;
@@ -73,8 +74,8 @@ class ArtifactModel {
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
             JOIN users ON classroom_student.student_id = users._id
             JOIN artifact_template ON artifact.template = artifact_template._id
-            WHERE users._id = $1 AND type = 1`;
-        const values = [userData.id];
+            WHERE users.uid = $1 AND type = 1`;
+        const values = [userData.uid];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
             return 1;
@@ -89,7 +90,7 @@ class ArtifactModel {
             quizzes = quizzes.concat(ownedQuizzes);
         }
         const assignedQuizzes = await this.readUserAssignedQuizzes(userData);
-        if (typeof assignedStudyGuides !== 'number') {
+        if (typeof assignedQuizzes !== 'number') {
             quizzes = quizzes.concat(assignedQuizzes);
         }
         if (quizzes.length === 0) {
@@ -103,8 +104,9 @@ class ArtifactModel {
             `SELECT artifact._id AS artifact_id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
             FROM artifact
             JOIN artifact_template ON artifact.template = artifact_template._id
-            WHERE owner = $1 AND type = 2`;
-        const values = [userData.id];
+            JOIN users ON artifact.owner = users._id
+            WHERE users.uid = $1 AND type = 2`;
+        const values = [userData.uid];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
             return 1;
@@ -120,8 +122,8 @@ class ArtifactModel {
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
             JOIN users ON classroom_student.student_id = users._id
             JOIN artifact_template ON artifact.template = artifact_template._id
-            WHERE users._id = $1 AND type = 2`;
-        const values = [userData.id];
+            WHERE users.uid = $1 AND type = 2`;
+        const values = [userData.uid];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
             return 1;

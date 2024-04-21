@@ -6,7 +6,7 @@ class ClassroomService {
     // classroom operations
 
     async createClassroom(userData) {
-        const neededFields = ['user_id', 'name', 'course'];
+        const neededFields = ['uid', 'name', 'course'];
         return await serviceModel(userData, neededFields, classroomModel.createClassroom(userData));
     }
 
@@ -16,7 +16,7 @@ class ClassroomService {
     }
 
     async getClassrooms(userData) {
-        const neededFields = ['id'];
+        const neededFields = ['uid'];
         return await serviceModel(userData, neededFields, classroomModel.getClassrooms(userData));
     }
 
