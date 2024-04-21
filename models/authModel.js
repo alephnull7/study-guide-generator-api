@@ -11,18 +11,18 @@ class AuthModel {
 
     async createUser(userData) {
         try {
-            // Firebase entity creation
-            const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
-            const uid = userCredential.user.uid;
-            await sendEmailVerification(auth.currentUser)
-
             // Self-managed entity creation
             const query =
                 `INSERT INTO ${this.tableName} (username, account_type, uid) VALUES ($1, $2, $3) RETURNING *`;
             const values = [userData.email.split('@')[0], userData.account_type, uid];
             const user = await pool.query(query, values);
 
+            // Firebase entity creation
+            const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
+            const uid = userCredential.user.uid;
+            await sendEmailVerification(auth.currentUser)
             const token = await userCredential.user.getIdToken();
+
             return { token, uid, username: user.username, account_type: user.account_type };
         } catch (e) {
             console.error(e);
