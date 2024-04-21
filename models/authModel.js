@@ -23,7 +23,7 @@ class AuthModel {
             const user = await pool.query(query, values);
 
             const token = await userCredential.user.getIdToken();
-            return { token, uid, username: user.username };
+            return { token, uid, username: user.username, account_type: user.account_type };
         } catch (e) {
             console.error(e);
             return 0;
@@ -38,7 +38,7 @@ class AuthModel {
 
             const tempData = { uid };
             const user = await serviceModel(tempData, ['uid'], new UserModel().getUser(tempData));
-            return { token, uid, username: user.username };
+            return { token, uid, username: user.username, account_type: user.account_type };
         } catch (e) {
             console.error(e);
             return 2;
