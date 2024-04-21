@@ -143,24 +143,6 @@ Below are the defined routes and expected behavior by the API.
 
 ### Users
 
-* GET
-  * `/api/users/auth`: returns authentication credentials for the user corresponding to the information in the below body
-  ```json lines
-  {
-  "email": string,
-  "password": string,
-  }
-  ```
-  * `/api/users/:uid`: returns the user info for the user corresponding to `uid`
-* POST
-  * `/api/users`: creates the user corresponding to the information in the below body
-  ```json lines
-  {
-  "email": string,
-  "password": string,
-  "account_type": int
-  }
-  ```
 * PUT
   * `/api/users`: updates the user corresponding to the information in the below body
   ```json lines
