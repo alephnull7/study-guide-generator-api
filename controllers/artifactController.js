@@ -18,11 +18,11 @@ router.get('/:id', async (req, res) => {
     await controlService(req, res, artifactService.readArtifact(req.params));
 });
 
-router.get('/study-guides/:id', async (req, res) => {
+router.get('/study-guides/:uid', async (req, res) => {
     await controlService(req, res, artifactService.readUserStudyGuides(req.params));
 });
 
-router.get('/quizzes/:id', async (req, res) => {
+router.get('/quizzes/:uid', async (req, res) => {
     await controlService(req, res, artifactService.readUserQuizzes(req.params));
 });
 
