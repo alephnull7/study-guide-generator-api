@@ -28,6 +28,10 @@ class ArtifactService {
         return await serviceModel(userData, neededFields, artifactModel.readUserQuizzes(userData));
     }
 
+    async getTemplates(userData) {
+        return await serviceModel(userData, [], artifactModel.getTemplates(userData));
+    }
+
     async getTemplate(userData) {
         const neededFields = ['id'];
         return await serviceModel(userData, neededFields, artifactModel.getTemplate(userData));
