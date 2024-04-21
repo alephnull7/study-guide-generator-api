@@ -17,7 +17,7 @@ const serviceAccount = {
     type: process.env.FB_TYPE,
     projectId: process.env.FB_PROJECT_ID,
     private_key_id: process.env.FB_PRIVATE_KEY_ID,
-    private_key: process.env.FB_PRIVATE_KEY,
+    private_key: Buffer.from(process.env.FB_PRIVATE_KEY, 'base64').toString('utf-8'),
     client_email: process.env.FB_CLIENT_EMAIL,
     client_id: process.env.FB_CLIENT_ID,
     auth_uri: process.env.FB_AUTH_URI,
