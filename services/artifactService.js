@@ -42,6 +42,11 @@ class ArtifactService {
         return await serviceModel(userData, neededFields, artifactModel.getTemplatesForCourse(userData));
     }
 
+    async getTemplatesForDepartment(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, artifactModel.getTemplatesForDepartment(userData));
+    }
+
     async getCourses() {
         return await serviceModel({}, [], artifactModel.getCourses());
     }

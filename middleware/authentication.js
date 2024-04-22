@@ -3,7 +3,6 @@ const controlService = require('../controllers/helpers/helpers');
 
 async function authenticateUser(req, res, next) {
     const { authorization } = req.headers;
-    console.log(authorization);
 
     if (!authorization || !authorization.startsWith('Bearer ')) {
         return res.status(401).json({ error: 'Unauthorized' });

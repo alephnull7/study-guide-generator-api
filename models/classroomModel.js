@@ -11,10 +11,21 @@ class ClassroomModel {
         const tempData = { uid: classroomData.uid };
         const user = await serviceModel(tempData, ['uid'], new UserModel().getUser(tempData));
 
+        // create classroom
         const query =
             `INSERT INTO ${this.tableName} (name, instructed, course) VALUES ($1, $2, $3) RETURNING *`;
-        const values = [classroomData.name, user._id, classroomData.course];
+        const values = [classroomData.name, user._id, classroomData.course_id];
         const { rows } = await pool.query(query, values);
+
+        // add students
+        if (Array.isArray(classroomData.students) && classroomData.students.length > 0) {
+            const tempData = {
+                id: rows[0]._id,
+                students: classroomData.students
+            };
+            await this.addStudents(tempData);
+        }
+
         return rows[0];
     }
 
