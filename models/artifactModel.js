@@ -2,6 +2,7 @@ const pool = require('../config/db');
 const createArtifact = require('../artifactGeneration/artifactCreation');
 const serviceModel = require("../services/helpers/helpers");
 const UserModel = require("./userModel");
+const ClassroomModel = require("./classroomModel");
 
 class ArtifactModel {
     constructor() {

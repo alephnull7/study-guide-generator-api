@@ -197,7 +197,7 @@ Below are the defined routes and expected behavior by the API.
 
 * GET
   * `/api/classrooms/:id`: returns the students for the classroom corresponding to `id`
-  * `/api/classrooms/instructors/:uid`: returns all the students and their assigned classrooms, for classrooms instructed by user corresponding to `uid`
+  * `/api/classrooms/instructors/:uid`: returns the classrooms instructed by user corresponding to `uid`
 * POST
   * `/api/classroom`: creates the classroom corresponding to the information in the below body
   ```json lines

@@ -20,6 +20,11 @@ class ClassroomService {
         return await serviceModel(userData, neededFields, classroomModel.getClassrooms(userData));
     }
 
+    async getClassroomsForCourse(userData) {
+        const neededFields = ['uid', 'course'];
+        return await serviceModel(userData, neededFields, classroomModel.getClassroomsForCourse(userData));
+    }
+
     async updateClassroom(userData) {
         const neededFields = ['id', 'name'];
         return await serviceModel(userData, neededFields, classroomModel.updateClassroom(userData));
