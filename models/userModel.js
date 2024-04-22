@@ -18,8 +18,7 @@ class UserModel {
 
     async getStudents() {
         const query =
-            `SELECT * FROM ${this.tableName} WHERE account_type = 0`;
-        console.log(query);
+            `SELECT _id AS id, username FROM ${this.tableName} WHERE account_type = 0`;
         const { rows } = await pool.query(query);
         if (rows.length === 0) {
             return 1;
