@@ -6,6 +6,10 @@ const authenticateUser = require("../middleware/authentication");
 
 router.use(authenticateUser);
 
+router.get('/students', async (req, res) => {
+    await controlService(req, res, userService.getStudents());
+});
+
 router.get('/:uid', async (req, res) => {
     await controlService(req, res, userService.getUser(req.params));
 });

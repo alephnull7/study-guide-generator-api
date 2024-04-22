@@ -8,6 +8,10 @@ class UserService {
         return await serviceModel(userData, neededFields, userModel.getUser(userData));
     }
 
+    async getStudents() {
+        return await serviceModel({}, [], userModel.getStudents());
+    }
+
     async updateUser(userData) {
         const neededFields = ['email', 'id'];
         return await serviceModel(userData, neededFields, userModel.updateUser(userData));

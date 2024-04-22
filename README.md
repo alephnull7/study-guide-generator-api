@@ -142,6 +142,9 @@ Below are the defined routes and expected behavior by the API.
 
 ### Users
 
+* GET
+  * `/api/users/students`: returns the records for student users
+
 * PUT
   * `/api/users`: updates the user corresponding to the information in the below body
   ```json lines
@@ -173,7 +176,7 @@ Below are the defined routes and expected behavior by the API.
   * `/api/artifacts`: creates the artifact corresponding to the information in the below body
   ```json lines
   {
-  "user_id": int,
+  "uid": int,
   "template_id": int,
   "name": string
   }
@@ -183,8 +186,10 @@ Below are the defined routes and expected behavior by the API.
   * `/api/artifacts/quizzes/:uid`: returns the quizzes for the user corresponding to `uid`
   * `/api/artifacts/departments`: returns the records for all departments
   * `/api/artifacts/courses`: returns the records for all courses
-  * `/api/artifacts/courses/:id`: returns the courses for the department corresponding to `id`
-  * `/api/artifacts/courses/templates/:id`: returns the templates for the course corresponding to `id`
+  * `/api/artifacts/departments/courses/:id`: returns the courses for the department corresponding to `id`
+  * `/api/artifacts/templates`: returns the records for all templates
+  * `/api/artifacts/templates/courses/:id`: returns the templates for the course corresponding to `id`
+  * `/api/artifacts/templates/departments/:id`: returns the templates for the department corresponding to `id`
   * `/api/artifacts/templates/:id`: returns the template corresponding to `id`
 
 ### Classrooms
@@ -196,9 +201,10 @@ Below are the defined routes and expected behavior by the API.
   * `/api/classroom`: creates the classroom corresponding to the information in the below body
   ```json lines
   {
-  "uid": int, 
+  "uid": string, 
   "name": string,
-  "course": string
+  "course_id": string,
+  "students": [int, ...]
   }
   ```
 * PUT

@@ -16,6 +16,17 @@ class UserModel {
         return rows[0];
     }
 
+    async getStudents() {
+        const query =
+            `SELECT * FROM ${this.tableName} WHERE account_type = 0`;
+        console.log(query);
+        const { rows } = await pool.query(query);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
     async updateUser(userData) {
         const query =
             `UPDATE ${this.tableName} SET email = $1 WHERE _id = $2 RETURNING *`;

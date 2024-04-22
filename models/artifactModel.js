@@ -181,11 +181,28 @@ class ArtifactModel {
 
     async getTemplatesForCourse(userData) {
         const query =
-            `SELECT artifact_template._id AS id, artifact_type.name AS type, course.name AS course_name, CONCAT(department.short_name, ' ', course.number) AS course_code, artifact_template.name AS name FROM artifact_template
+            `SELECT artifact_template._id AS id, artifact_template.name AS name, course.name AS course, department.name AS department, CONCAT(department.short_name, ' ', course.number) AS course_code
+            FROM artifact_template
             JOIN course ON artifact_template.course = course._id
             JOIN department ON course.department = department._id
             JOIN artifact_type ON artifact_template.type = artifact_type._id
             WHERE course._id = $1`;
+        const values = [userData.id];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
+    async getTemplatesForDepartment(userData) {
+        const query =
+            `SELECT artifact_template._id AS id, artifact_template.name AS name, course.name AS course, department.name AS department, CONCAT(department.short_name, ' ', course.number) AS course_code
+            FROM artifact_template
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
+            JOIN artifact_type ON artifact_template.type = artifact_type._id
+            WHERE department._id = $1`;
         const values = [userData.id];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
