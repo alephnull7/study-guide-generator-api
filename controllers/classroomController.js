@@ -18,6 +18,10 @@ router.get('/instructors/:uid', async (req, res) => {
     await controlService(req, res, classroomService.getClassrooms(req.params));
 });
 
+router.get('/instructors/:uid/:course', async (req, res) => {
+    await controlService(req, res, classroomService.getClassroomsForCourse(req.params));
+});
+
 router.put('/', async (req, res) => {
     await controlService(req, res, classroomService.updateClassroom(req.body));
 });

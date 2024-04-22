@@ -62,6 +62,23 @@ class ClassroomModel {
         return rows;
     }
 
+    async getClassroomsForCourse(classroomData) {
+        const query =
+            `SELECT classroom._id AS id, classroom.name AS name, course.name AS course,
+                CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
+            FROM classroom
+            JOIN users ON classroom.instructed = users._id
+            JOIN course ON classroom.course = course._id
+            JOIN department on course.department = department._id
+            WHERE users.uid = $1 AND course._id = $2`;
+        const values = [classroomData.uid, classroomData.course];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
     async updateClassroom(classroomData) {
         const query =
             `UPDATE ${this.tableName} SET name = $1 WHERE _id = $2 RETURNING *`;

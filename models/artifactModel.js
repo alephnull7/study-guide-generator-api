@@ -2,6 +2,7 @@ const pool = require('../config/db');
 const createArtifact = require('../artifactGeneration/artifactCreation');
 const serviceModel = require("../services/helpers/helpers");
 const UserModel = require("./userModel");
+const ClassroomModel = require("./classroomModel");
 
 class ArtifactModel {
     constructor() {
@@ -17,16 +18,31 @@ class ArtifactModel {
     }
 
     async createArtifact(userData) {
+        // get internal user id
         const tempData = { uid: userData.uid };
         const user = await serviceModel(tempData, ['uid'], new UserModel().getUser(tempData));
 
+        // create artifact content
         const template = await this.getTemplate({id: userData.template_id});
         const content = await createArtifact(template.messages);
 
+        // create artifact
         const query =
             `INSERT INTO ${this.tableName} (owner, template, name, content) VALUES ($1, $2, $3, $4) RETURNING *`;
         const values = [user._id, userData.template_id, userData.name, content];
         const { rows } = await pool.query(query, values);
+
+        // assign to classrooms
+        if (Array.isArray(userData.classrooms) && userData.classrooms.length > 0) {
+            for (const classroom of userData.classrooms) {
+                const tempData = {
+                    id: classroom,
+                    artifacts: [rows[0]._id]
+                };
+                await serviceModel(tempData, ['id', 'artifacts'], new ClassroomModel().addArtifacts(tempData));
+            }
+        }
+
         return rows[0];
     }
 
