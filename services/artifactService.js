@@ -9,7 +9,7 @@ class ArtifactService {
     }
 
     async createArtifact(userData) {
-        const neededFields = ['uid', 'template_id', 'name'];
+        const neededFields = ['uid', 'template_id', 'name', 'classrooms'];
         return await serviceModel(userData, neededFields, artifactModel.createArtifact(userData));
     }
 

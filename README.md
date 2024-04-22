@@ -178,7 +178,8 @@ Below are the defined routes and expected behavior by the API.
   {
   "uid": int,
   "template_id": int,
-  "name": string
+  "name": string,
+  "classrooms": [int, ...]
   }
   ```
 * GET

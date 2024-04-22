@@ -54,8 +54,4 @@ router.get('/departments/courses/:id', async (req, res) => {
     await controlService(req, res, artifactService.getCoursesForDepartment(req.params))
 })
 
-router.get('/departments', async (req, res) => {
-    await controlService(req, res, artifactService.getDepartments())
-})
-
 module.exports = router;
