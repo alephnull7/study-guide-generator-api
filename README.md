@@ -116,7 +116,7 @@ Below are the defined routes and expected behavior by the API.
 
 * If the server encounters an internal error, a status code of 500 will be returned
 * If an undefined route is sent a request, a status code of 404 will be returned
-* If an attempt to create an account that already exists, one that has the same email, a status code of 409 will be returned
+* If account with a given email exists, and there is an attempt to create another account with that email, a status code of 409 will be returned
 * If unrecognized credentials are used to log in, a status code of 401 will be returned
 * If a request that requires a token does not have a valid token in the header, a status code of 401 will be returned
 * If a POST, PUT, or DELETE request is missing required properties in the body, a status code of 400 will be returned
@@ -165,7 +165,8 @@ Below are the defined routes and expected behavior by the API.
   }
   ```
 * DELETE
-  * `/api/users`: deletes the user corresponding to the information in the below body
+  * `/api/users`: deletes the user corresponding to the information in the below body.
+    A user that is currently assigned to a classroom, either as a student or instructor, can not be deleted.
   ```json lines
   {
   "uid": string

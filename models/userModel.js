@@ -61,18 +61,29 @@ class UserModel {
     async deleteUser(userData) {
         const uid = userData.uid;
 
-        // Firebase entity deletion
-        await getAuth().deleteUser(uid);
+        try {
+            // Self-managed entity deletion
+            const query =
+                `DELETE FROM ${this.tableName} WHERE uid = $1 RETURNING *`;
+            const values = [uid];
+            const { rows } = await pool.query(query, values);
+            if (rows.length === 0) {
+                return 1;
+            }
 
-        // Self-managed entity deletion
-        const query =
-            `DELETE FROM ${this.tableName} WHERE uid = $1 RETURNING *`;
-        const values = [uid];
-        const { rows } = await pool.query(query, values);
-        if (rows.length === 0) {
-            return 1;
+            // Firebase entity deletion
+            await getAuth().deleteUser(uid);
+
+            return rows[0];
+        } catch (e) {
+            console.log(e);
+            switch (e.code) {
+                case 'auth/user-not-found':
+                    return 1;
+                default:
+                    return 0;
+            }
         }
-        return rows[0];
     }
 }
 
