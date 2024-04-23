@@ -13,12 +13,12 @@ class UserService {
     }
 
     async updateUser(userData) {
-        const neededFields = ['email', 'id'];
+        const neededFields = ['uid'];
         return await serviceModel(userData, neededFields, userModel.updateUser(userData));
     }
 
     async deleteUser(userData) {
-        const neededFields = ['id'];
+        const neededFields = ['uid'];
         return await serviceModel(userData, neededFields, userModel.deleteUser(userData));
     }
 }

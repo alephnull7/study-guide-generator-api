@@ -1,4 +1,5 @@
 const pool = require('../config/db');
+const { getAuth } = require('firebase-admin/auth');
 
 class UserModel {
     constructor() {
@@ -27,20 +28,46 @@ class UserModel {
     }
 
     async updateUser(userData) {
-        const query =
-            `UPDATE ${this.tableName} SET email = $1 WHERE _id = $2 RETURNING *`;
-        const values = [userData.email, userData.id];
-        const { rows } = await pool.query(query, values);
-        if (rows.length === 0) {
-            return 1;
+        const uid = userData.uid;
+
+        // Firebase entity update
+        const firebaseProps = ['email', 'password'];
+        const submitProps = {};
+        for (const prop of firebaseProps) {
+            if (userData.hasOwnProperty(prop)) {
+                submitProps[prop] = userData[prop]
+            }
         }
-        return rows[0];
+        if (Object.keys(submitProps).length > 0) {
+            await getAuth().updateUser(uid, submitProps);
+        }
+
+        // Self-managed entity update
+        if (userData.hasOwnProperty('username')) {
+            const query =
+                `UPDATE ${this.tableName} SET username = $1 WHERE uid = $2 RETURNING *`;
+            const values = [userData.username, uid];
+            const { rows } = await pool.query(query, values);
+
+            if (rows.length === 0) {
+                return 1;
+            }
+            return rows[0];
+        } else {
+            return await this.getUser(userData);
+        }
     }
 
     async deleteUser(userData) {
+        const uid = userData.uid;
+
+        // Firebase entity deletion
+        await getAuth().deleteUser(uid);
+
+        // Self-managed entity deletion
         const query =
-            `DELETE FROM ${this.tableName} WHERE _id = $1 RETURNING *`;
-        const values = [userData.id];
+            `DELETE FROM ${this.tableName} WHERE uid = $1 RETURNING *`;
+        const values = [uid];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
             return 1;

@@ -154,18 +154,21 @@ Below are the defined routes and expected behavior by the API.
   * `/api/users/students`: returns the records for student users
 
 * PUT
-  * `/api/users`: updates the user corresponding to the information in the below body
+  * `/api/users`: updates the user corresponding to the information in the below body.
+    Note that the only required property is `uid`; any combination of the other three properties is allowed.
   ```json lines
   {
-  "email": email, 
-  "id": int
+  "uid": string,
+  "email": string,
+  "username": string,
+  "password": string
   }
   ```
 * DELETE
   * `/api/users`: deletes the user corresponding to the information in the below body
   ```json lines
   {
-  "id": int
+  "uid": string
   }
   ```
 
