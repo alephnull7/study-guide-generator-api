@@ -194,7 +194,11 @@ Below are the defined routes and expected behavior by the API.
   ```
 * GET
   * `/api/artifacts/study-guides/:uid`: returns the study guides for the user corresponding to `uid`
+  * `/api/artifacts/study-guides/owned/:uid`: returns the study guides that are owned by the user corresponding to `uid`
+  * `/api/artifacts/study-guides/assigned/:uid`: returns the study guides that have been assigned to user corresponding to `uid`
   * `/api/artifacts/quizzes/:uid`: returns the quizzes for the user corresponding to `uid`
+  * `/api/artifacts/quizzes/owned/:uid`: returns the quizzes that are owned by the user corresponding to `uid`
+  * `/api/artifacts/quizzes/assigned/:uid`: returns the quizzes that have been assigned to user corresponding to `uid`
   * `/api/artifacts/departments`: returns the records for all departments
   * `/api/artifacts/courses`: returns the records for all courses
   * `/api/artifacts/departments/courses/:id`: returns the courses for the department corresponding to `id`

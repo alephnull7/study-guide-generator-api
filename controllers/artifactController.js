@@ -38,6 +38,22 @@ router.get('/quizzes/:uid', async (req, res) => {
     await controlService(req, res, artifactService.readUserQuizzes(req.params));
 });
 
+router.get('/study-guides/owned/:uid', async (req, res) => {
+    await controlService(req, res, artifactService.readUserOwnedStudyGuides(req.params));
+});
+
+router.get('/study-guides/assigned/:uid', async (req, res) => {
+    await controlService(req, res, artifactService.readUserAssignedStudyGuides(req.params));
+});
+
+router.get('/quizzes/owned/:uid', async (req, res) => {
+    await controlService(req, res, artifactService.readUserOwnedQuizzes(req.params));
+});
+
+router.get('/quizzes/assigned/:uid', async (req, res) => {
+    await controlService(req, res, artifactService.readUserAssignedQuizzes(req.params));
+});
+
 router.get('/templates/:id', async (req, res) => {
     await controlService(req, res, artifactService.getTemplate(req.params));
 })
