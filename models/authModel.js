@@ -31,7 +31,7 @@ class AuthModel {
             return { token, uid, username: rows[0].username, account_type: rows[0].account_type };
         } catch (e) {
             console.error(e);
-            return 0;
+            return 3;
         }
     }
 

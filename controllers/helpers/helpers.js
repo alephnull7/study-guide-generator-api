@@ -9,6 +9,9 @@ function relayResponse(req, res, result) {
         case 2:
             res.status(401).json({ message: 'Unauthorized' });
             break;
+        case 3:
+            res.status(409).json({ message: 'Account Exists' });
+            break;
         default:
             const successCode = getSuccessCode(req.method);
             res.status(successCode).json(result);

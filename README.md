@@ -116,12 +116,18 @@ Below are the defined routes and expected behavior by the API.
 
 * If the server encounters an internal error, a status code of 500 will be returned
 * If an undefined route is sent a request, a status code of 404 will be returned
+* If an attempt to create an account that already exists, one that has the same email, a status code of 409 will be returned
+* If unrecognized credentials are used to log in, a status code of 401 will be returned
+* If a request that requires a token does not have a valid token in the header, a status code of 401 will be returned
 * If a POST, PUT, or DELETE request is missing required properties in the body, a status code of 400 will be returned
 * If a POST, PUT, or DELETE request corresponds to an entity that does not exist, a status code of 204 will be returned
 * A successful POST request will return a status code of 201
 * A successful GET, PUT, or DELETE request will return a status code of 200
 
 ### Auth
+
+**These routes do not require a token in the request header.**
+**If the request is successful, the response includes a token that can be used for other requests.**
 
 * POST
   * `/api/auth/create`: creates the user corresponding to the information in the below body
@@ -141,6 +147,8 @@ Below are the defined routes and expected behavior by the API.
   ```
 
 ### Users
+
+**These routes require a valid token in the request header**
 
 * GET
   * `/api/users/students`: returns the records for student users
@@ -162,6 +170,8 @@ Below are the defined routes and expected behavior by the API.
   ```
 
 ### Artifacts
+
+**These routes require a valid token in the request header**
 
 * POST
   * `/api/artifacts/templates`: creates the artifact template corresponding to the information in the below body
@@ -194,6 +204,8 @@ Below are the defined routes and expected behavior by the API.
   * `/api/artifacts/templates/:id`: returns the template corresponding to `id`
 
 ### Classrooms
+
+**These routes require a valid token in the request header**
 
 * GET
   * `/api/classrooms/:id`: returns the students for the classroom corresponding to `id`
