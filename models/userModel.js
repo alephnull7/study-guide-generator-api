@@ -99,9 +99,6 @@ class UserModel {
                 const classroomModel =  new ClassroomModel();
                 const classrooms = await serviceModel(userData, ['uid'], classroomModel.getClassrooms(userData));
                 for (const classroom of classrooms) {
-                    const query =
-                        `DELETE FROM classroom_student WHERE classroom_id = $1`;
-                    await pool.query(query, [classroom.id]);
                     await classroomModel.deleteClassroom({ id: classroom.id });
                 }
             }
