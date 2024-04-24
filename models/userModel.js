@@ -1,6 +1,7 @@
 const pool = require('../config/db');
 const { getAuth } = require('firebase-admin/auth');
 const ArtifactModel = require("./artifactModel");
+const ClassroomModel = require("./classroomModel");
 const serviceModel = require("../services/helpers/helpers");
 
 class UserModel {
@@ -70,6 +71,9 @@ class UserModel {
             const studyGuides = await serviceModel(userData, ['uid'], artifactModel.readUserOwnedStudyGuides(userData));
             if (typeof studyGuides !== 'number') {
                 for (const studyGuide of studyGuides) {
+                    const query =
+                        `DELETE FROM classroom_artifact WHERE artifact_id = $1`;
+                    await pool.query(query, [studyGuide.id]);
                     await artifactModel.deleteArtifact({ id: studyGuide.id });
                 }
             }
@@ -77,6 +81,9 @@ class UserModel {
             const quizzes = await serviceModel(userData, ['uid'], artifactModel.readUserOwnedQuizzes(userData));
             if (typeof quizzes !== 'number') {
                 for (const quiz of quizzes) {
+                    const query =
+                        `DELETE FROM classroom_artifact WHERE artifact_id = $1`;
+                    await pool.query(query, [quiz.id]);
                     await artifactModel.deleteArtifact({ id: quiz.id });
                 }
             }
@@ -89,10 +96,14 @@ class UserModel {
                 const values = [user._id];
                 await pool.query(query, values);
             } else {
-                const query =
-                    `DELETE FROM classroom WHERE instructed = $1`;
-                const values = [user._id];
-                await pool.query(query, values);
+                const classroomModel =  new ClassroomModel();
+                const classrooms = await serviceModel(userData, ['uid'], classroomModel.getClassrooms(userData));
+                for (const classroom of classrooms) {
+                    const query =
+                        `DELETE FROM classroom_student WHERE classroom_id = $1`;
+                    await pool.query(query, [classroom.id]);
+                    await classroomModel.deleteClassroom({ id: classroom.id });
+                }
             }
 
             // Self-managed entity deletion
