@@ -92,8 +92,10 @@ class UserModel {
             } else {
                 const classroomModel =  new ClassroomModel();
                 const classrooms = await serviceModel(userData, ['uid'], classroomModel.getClassrooms(userData));
-                for (const classroom of classrooms) {
-                    await classroomModel.deleteClassroom({ id: classroom.id });
+                if (typeof classrooms !== 'number') {
+                    for (const classroom of classrooms) {
+                        await classroomModel.deleteClassroom({ id: classroom.id });
+                    }
                 }
             }
 
