@@ -205,6 +205,14 @@ Below are the defined routes and expected behavior by the API.
   * `/api/artifacts/templates/courses/:id`: returns the templates for the course corresponding to `id`
   * `/api/artifacts/templates/departments/:id`: returns the templates for the department corresponding to `id`
   * `/api/artifacts/templates/:id`: returns the template corresponding to `id`
+* PUT
+  * `/api/artifacts`: updates the artifact corresponding to the information in the below body
+  ```json lines
+  {
+  "name": string, 
+  "id": int
+  }
+  ```
 * DELETE
   * `/api/artifacts/:id`: deletes the artifact corresponding to `id`.
     An artifact that is currently assigned to a classroom can not be deleted.

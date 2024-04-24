@@ -84,6 +84,11 @@ class ArtifactService {
         const neededFields = ['id'];
         return await serviceModel(userData, neededFields, artifactModel.deleteArtifact(userData));
     }
+
+    async updateArtifact(userData) {
+        const neededFields = ['id', 'name'];
+        return await serviceModel(userData, neededFields, artifactModel.updateArtifact(userData));
+    }
 }
 
 module.exports = new ArtifactService();

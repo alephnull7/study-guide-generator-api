@@ -74,4 +74,8 @@ router.delete('/:id', async (req, res) => {
     await controlService(req, res, artifactService.deleteArtifact(req.params));
 });
 
+router.put('/', async (req, res) => {
+    await controlService(req, res, artifactService.updateArtifact(req.body));
+});
+
 module.exports = router;

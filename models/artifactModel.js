@@ -282,6 +282,17 @@ class ArtifactModel {
             return 0;
         }
     }
+
+    async updateArtifact(userData) {
+        const query =
+            `UPDATE ${this.tableName} SET name = $1 WHERE _id = $2 RETURNING *`;
+        const values = [userData.name, userData.id];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows[0];
+    }
 }
 
 module.exports = ArtifactModel;
