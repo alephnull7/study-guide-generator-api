@@ -23,9 +23,29 @@ class ArtifactService {
         return await serviceModel(userData, neededFields, artifactModel.readUserStudyGuides(userData));
     }
 
+    async readUserOwnedStudyGuides(userData) {
+        const neededFields = ['uid'];
+        return await serviceModel(userData, neededFields, artifactModel.readUserOwnedStudyGuides(userData));
+    }
+
+    async readUserAssignedStudyGuides(userData) {
+        const neededFields = ['uid'];
+        return await serviceModel(userData, neededFields, artifactModel.readUserAssignedStudyGuides(userData));
+    }
+
     async readUserQuizzes(userData) {
         const neededFields = ['uid'];
         return await serviceModel(userData, neededFields, artifactModel.readUserQuizzes(userData));
+    }
+
+    async readUserOwnedQuizzes(userData) {
+        const neededFields = ['uid'];
+        return await serviceModel(userData, neededFields, artifactModel.readUserOwnedQuizzes(userData));
+    }
+
+    async readUserAssignedQuizzes(userData) {
+        const neededFields = ['uid'];
+        return await serviceModel(userData, neededFields, artifactModel.readUserAssignedQuizzes(userData));
     }
 
     async getTemplates(userData) {
@@ -58,6 +78,16 @@ class ArtifactService {
 
     async getDepartments() {
         return await serviceModel({}, [], artifactModel.getDepartments());
+    }
+
+    async deleteArtifact(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, artifactModel.deleteArtifact(userData));
+    }
+
+    async updateArtifact(userData) {
+        const neededFields = ['id', 'name'];
+        return await serviceModel(userData, neededFields, artifactModel.updateArtifact(userData));
     }
 }
 

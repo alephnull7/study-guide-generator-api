@@ -18,8 +18,8 @@ router.put('/', async (req, res) => {
     await controlService(req, res, userService.updateUser(req.body));
 });
 
-router.delete('/', async (req, res) => {
-    await controlService(req, res, userService.deleteUser(req.body));
+router.delete('/:uid', async (req, res) => {
+    await controlService(req, res, userService.deleteUser(req.params));
 });
 
 module.exports = router;

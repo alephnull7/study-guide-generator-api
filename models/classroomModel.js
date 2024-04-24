@@ -91,14 +91,29 @@ class ClassroomModel {
     }
 
     async deleteClassroom(classroomData) {
-        const query =
-            `DELETE FROM ${this.tableName} WHERE _id = $1 RETURNING *`;
-        const values = [classroomData.id];
-        const { rows } = await pool.query(query, values);
-        if (rows.length === 0) {
-            return 1;
+        try {
+            const values = [classroomData.id];
+
+            const studentJunctionQuery =
+                `DELETE FROM classroom_student WHERE classroom_id = $1`;
+            await pool.query(studentJunctionQuery, values);
+
+            const artifactJunctionQuery =
+                `DELETE FROM classroom_artifact WHERE classroom_id = $1`;
+            await pool.query(artifactJunctionQuery, values);
+
+            const query =
+                `DELETE FROM ${this.tableName} WHERE _id = $1 RETURNING *`;
+            const { rows } = await pool.query(query, values);
+
+            if (rows.length === 0) {
+                return 1;
+            }
+            return rows[0];
+        } catch(e) {
+            console.log(e);
+            return 0;
         }
-        return rows[0];
     }
 
     async addStudents(classroomData) {

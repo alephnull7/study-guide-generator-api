@@ -26,8 +26,8 @@ router.put('/', async (req, res) => {
     await controlService(req, res, classroomService.updateClassroom(req.body));
 });
 
-router.delete('/', async (req, res) => {
-    await controlService(req, res, classroomService.deleteClassroom(req.body));
+router.delete('/:id', async (req, res) => {
+    await controlService(req, res, classroomService.deleteClassroom(req.params));
 });
 
 router.put('/students/add', async (req, res) => {

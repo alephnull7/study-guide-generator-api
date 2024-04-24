@@ -75,7 +75,7 @@ class ArtifactModel {
 
     async readUserOwnedStudyGuides(userData) {
         const query =
-            `SELECT artifact._id AS artifact_id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
+            `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
             FROM artifact
             JOIN artifact_template ON artifact.template = artifact_template._id
             JOIN users on artifact.owner = users._id
@@ -90,7 +90,7 @@ class ArtifactModel {
 
     async readUserAssignedStudyGuides(userData) {
         const query =
-            `SELECT artifact._id AS artifact_id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
+            `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
             FROM artifact
             JOIN classroom_artifact ON artifact._id = classroom_artifact.artifact_id
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
@@ -123,7 +123,7 @@ class ArtifactModel {
 
     async readUserOwnedQuizzes(userData) {
         const query =
-            `SELECT artifact._id AS artifact_id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
+            `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
             FROM artifact
             JOIN artifact_template ON artifact.template = artifact_template._id
             JOIN users ON artifact.owner = users._id
@@ -138,7 +138,7 @@ class ArtifactModel {
 
     async readUserAssignedQuizzes(userData) {
         const query =
-            `SELECT artifact._id AS artifact_id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
+            `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
             FROM artifact
             JOIN classroom_artifact ON artifact._id = classroom_artifact.artifact_id
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
@@ -259,6 +259,39 @@ class ArtifactModel {
             return 1;
         }
         return rows;
+    }
+
+    async deleteArtifact(userData) {
+        try {
+            const values = [userData.id];
+
+            const junctionQuery =
+                `DELETE FROM classroom_artifact WHERE artifact_id = $1`;
+            await pool.query(junctionQuery, values);
+
+            const query =
+                `DELETE FROM ${this.tableName} WHERE _id = $1 RETURNING *`;
+            const { rows } = await pool.query(query, values);
+
+            if (rows.length === 0) {
+                return 1;
+            }
+            return rows[0];
+        } catch(e) {
+            console.log(e);
+            return 0;
+        }
+    }
+
+    async updateArtifact(userData) {
+        const query =
+            `UPDATE ${this.tableName} SET name = $1 WHERE _id = $2 RETURNING *`;
+        const values = [userData.name, userData.id];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows[0];
     }
 }
 

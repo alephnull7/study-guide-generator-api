@@ -116,12 +116,18 @@ Below are the defined routes and expected behavior by the API.
 
 * If the server encounters an internal error, a status code of 500 will be returned
 * If an undefined route is sent a request, a status code of 404 will be returned
+* If account with a given email exists, and there is an attempt to create another account with that email, a status code of 409 will be returned
+* If unrecognized credentials are used to log in, a status code of 401 will be returned
+* If a request that requires a token does not have a valid token in the header, a status code of 401 will be returned
 * If a POST, PUT, or DELETE request is missing required properties in the body, a status code of 400 will be returned
 * If a POST, PUT, or DELETE request corresponds to an entity that does not exist, a status code of 204 will be returned
 * A successful POST request will return a status code of 201
 * A successful GET, PUT, or DELETE request will return a status code of 200
 
 ### Auth
+
+**These routes do not require a token in the request header.**
+**If the request is successful, the response includes a token that can be used for other requests.**
 
 * POST
   * `/api/auth/create`: creates the user corresponding to the information in the below body
@@ -142,26 +148,29 @@ Below are the defined routes and expected behavior by the API.
 
 ### Users
 
+**These routes require a valid token in the request header**
+
 * GET
   * `/api/users/students`: returns the records for student users
 
 * PUT
-  * `/api/users`: updates the user corresponding to the information in the below body
+  * `/api/users`: updates the user corresponding to the information in the below body.
+    Note that the only required property is `uid`; any combination of the other three properties is allowed.
   ```json lines
   {
-  "email": email, 
-  "id": int
+  "uid": string,
+  "email": string,
+  "username": string,
+  "password": string
   }
   ```
 * DELETE
-  * `/api/users`: deletes the user corresponding to the information in the below body
-  ```json lines
-  {
-  "id": int
-  }
-  ```
+  * `/api/users/:uid`: deletes the user corresponding to `uid`.
+    On deletion, owned artifacts and instructed classrooms are deleted.
 
 ### Artifacts
+
+**These routes require a valid token in the request header**
 
 * POST
   * `/api/artifacts/templates`: creates the artifact template corresponding to the information in the below body
@@ -184,7 +193,11 @@ Below are the defined routes and expected behavior by the API.
   ```
 * GET
   * `/api/artifacts/study-guides/:uid`: returns the study guides for the user corresponding to `uid`
+  * `/api/artifacts/study-guides/owned/:uid`: returns the study guides that are owned by the user corresponding to `uid`
+  * `/api/artifacts/study-guides/assigned/:uid`: returns the study guides that have been assigned to user corresponding to `uid`
   * `/api/artifacts/quizzes/:uid`: returns the quizzes for the user corresponding to `uid`
+  * `/api/artifacts/quizzes/owned/:uid`: returns the quizzes that are owned by the user corresponding to `uid`
+  * `/api/artifacts/quizzes/assigned/:uid`: returns the quizzes that have been assigned to user corresponding to `uid`
   * `/api/artifacts/departments`: returns the records for all departments
   * `/api/artifacts/courses`: returns the records for all courses
   * `/api/artifacts/departments/courses/:id`: returns the courses for the department corresponding to `id`
@@ -192,8 +205,22 @@ Below are the defined routes and expected behavior by the API.
   * `/api/artifacts/templates/courses/:id`: returns the templates for the course corresponding to `id`
   * `/api/artifacts/templates/departments/:id`: returns the templates for the department corresponding to `id`
   * `/api/artifacts/templates/:id`: returns the template corresponding to `id`
+* PUT
+  * `/api/artifacts`: updates the artifact corresponding to the information in the below body
+  ```json lines
+  {
+  "name": string, 
+  "id": int
+  }
+  ```
+* DELETE
+  * `/api/artifacts/:id`: deletes the artifact corresponding to `id`.
+    An artifact that is currently assigned to a classroom can not be deleted.
+
 
 ### Classrooms
+
+**These routes require a valid token in the request header**
 
 * GET
   * `/api/classrooms/:id`: returns the students for the classroom corresponding to `id`
@@ -245,12 +272,7 @@ Below are the defined routes and expected behavior by the API.
   }
   ```
 * DELETE
-  * `/api/classroom`: deletes the classroom corresponding to the information in the below body
-  ```json lines
-  {
-  "id": int
-  }
-  ```  
+  * `/api/classrooms/:id`: deletes the classroom corresponding to `id`.
 
 ## Contributing
 

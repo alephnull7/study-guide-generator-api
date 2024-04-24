@@ -5,7 +5,7 @@ async function authenticateUser(req, res, next) {
     const { authorization } = req.headers;
 
     if (!authorization || !authorization.startsWith('Bearer ')) {
-        return res.status(401).json({ error: 'Unauthorized' });
+        return controlService(req, res, 2);
     }
 
     const idToken = authorization.split('Bearer ')[1];
