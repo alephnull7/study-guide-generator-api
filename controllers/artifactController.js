@@ -12,19 +12,19 @@ router.post('/templates', async (req, res) => {
 
 router.post('/', async (req, res) => {
     await controlService(req, res, artifactService.createArtifact(req.body));
-})
+});
 
 router.get('/templates', async (req, res) => {
     await controlService(req, res, artifactService.getTemplates(req.body));
-})
+});
 
 router.get('/courses', async (req, res) => {
     await controlService(req, res, artifactService.getCourses())
-})
+});
 
 router.get('/departments', async (req, res) => {
     await controlService(req, res, artifactService.getDepartments())
-})
+});
 
 router.get('/:id', async (req, res) => {
     await controlService(req, res, artifactService.readArtifact(req.params));
@@ -56,22 +56,22 @@ router.get('/quizzes/assigned/:uid', async (req, res) => {
 
 router.get('/templates/:id', async (req, res) => {
     await controlService(req, res, artifactService.getTemplate(req.params));
-})
+});
 
 router.get('/templates/courses/:id', async (req, res) => {
     await controlService(req, res, artifactService.getTemplatesForCourse(req.params));
-})
+});
 
 router.get('/templates/departments/:id', async (req, res) => {
     await controlService(req, res, artifactService.getTemplatesForDepartment(req.params));
-})
+});
 
 router.get('/departments/courses/:id', async (req, res) => {
     await controlService(req, res, artifactService.getCoursesForDepartment(req.params))
-})
+});
 
 router.delete('/:id', async (req, res) => {
     await controlService(req, res, artifactService.deleteArtifact(req.params));
-})
+});
 
 module.exports = router;

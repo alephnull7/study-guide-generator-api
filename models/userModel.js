@@ -71,9 +71,6 @@ class UserModel {
             const studyGuides = await serviceModel(userData, ['uid'], artifactModel.readUserOwnedStudyGuides(userData));
             if (typeof studyGuides !== 'number') {
                 for (const studyGuide of studyGuides) {
-                    const query =
-                        `DELETE FROM classroom_artifact WHERE artifact_id = $1`;
-                    await pool.query(query, [studyGuide.id]);
                     await artifactModel.deleteArtifact({ id: studyGuide.id });
                 }
             }
@@ -81,9 +78,6 @@ class UserModel {
             const quizzes = await serviceModel(userData, ['uid'], artifactModel.readUserOwnedQuizzes(userData));
             if (typeof quizzes !== 'number') {
                 for (const quiz of quizzes) {
-                    const query =
-                        `DELETE FROM classroom_artifact WHERE artifact_id = $1`;
-                    await pool.query(query, [quiz.id]);
                     await artifactModel.deleteArtifact({ id: quiz.id });
                 }
             }
