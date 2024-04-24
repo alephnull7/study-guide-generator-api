@@ -260,6 +260,22 @@ class ArtifactModel {
         }
         return rows;
     }
+
+    async deleteArtifact(userData) {
+        try {
+            const query =
+                `DELETE FROM ${this.tableName} WHERE _id = $1 RETURNING *`;
+            const values = [userData.id];
+            const { rows } = await pool.query(query, values);
+            if (rows.length === 0) {
+                return 1;
+            }
+            return rows[0];
+        } catch(e) {
+            console.log(e);
+            return 0;
+        }
+    }
 }
 
 module.exports = ArtifactModel;

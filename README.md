@@ -165,13 +165,8 @@ Below are the defined routes and expected behavior by the API.
   }
   ```
 * DELETE
-  * `/api/users`: deletes the user corresponding to the information in the below body.
+  * `/api/users/:uid`: deletes the user corresponding to `uid`.
     A user that is currently assigned to a classroom, either as a student or instructor, can not be deleted.
-  ```json lines
-  {
-  "uid": string
-  }
-  ```
 
 ### Artifacts
 
@@ -210,6 +205,10 @@ Below are the defined routes and expected behavior by the API.
   * `/api/artifacts/templates/courses/:id`: returns the templates for the course corresponding to `id`
   * `/api/artifacts/templates/departments/:id`: returns the templates for the department corresponding to `id`
   * `/api/artifacts/templates/:id`: returns the template corresponding to `id`
+* DELETE
+  * `/api/artifacts/:id`: deletes the artifact corresponding to `id`.
+    An artifact that is currently assigned to a classroom can not be deleted.
+
 
 ### Classrooms
 

@@ -70,4 +70,8 @@ router.get('/departments/courses/:id', async (req, res) => {
     await controlService(req, res, artifactService.getCoursesForDepartment(req.params))
 })
 
+router.delete('/:id', async (req, res) => {
+    await controlService(req, res, artifactService.deleteArtifact(req.params));
+})
+
 module.exports = router;

@@ -79,6 +79,11 @@ class ArtifactService {
     async getDepartments() {
         return await serviceModel({}, [], artifactModel.getDepartments());
     }
+
+    async deleteArtifact(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, artifactModel.deleteArtifact(userData));
+    }
 }
 
 module.exports = new ArtifactService();
