@@ -166,7 +166,7 @@ Below are the defined routes and expected behavior by the API.
   ```
 * DELETE
   * `/api/users/:uid`: deletes the user corresponding to `uid`.
-    A user that is currently assigned to a classroom, either as a student or instructor, can not be deleted.
+    On deletion, owned artifacts and instructed classrooms are deleted.
 
 ### Artifacts
 

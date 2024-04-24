@@ -1,5 +1,7 @@
 const pool = require('../config/db');
 const { getAuth } = require('firebase-admin/auth');
+const ArtifactModel = require("./artifactModel");
+const serviceModel = require("../services/helpers/helpers");
 
 class UserModel {
     constructor() {
@@ -62,6 +64,37 @@ class UserModel {
         const uid = userData.uid;
 
         try {
+            // Delete owned artifacts
+            const artifactModel =  new ArtifactModel();
+
+            const studyGuides = await serviceModel(userData, ['uid'], artifactModel.readUserOwnedStudyGuides(userData));
+            if (typeof studyGuides !== 'number') {
+                for (const studyGuide of studyGuides) {
+                    await artifactModel.deleteArtifact({ id: studyGuide.id });
+                }
+            }
+
+            const quizzes = await serviceModel(userData, ['uid'], artifactModel.readUserOwnedQuizzes(userData));
+            if (typeof quizzes !== 'number') {
+                for (const quiz of quizzes) {
+                    await artifactModel.deleteArtifact({ id: quiz.id });
+                }
+            }
+
+            // Remove user from classroom entries
+            const user = await this.getUser(userData);
+            if (user.account_type === 0) {
+                const query =
+                    `DELETE FROM classroom_student WHERE student_id = $1`;
+                const values = [user._id];
+                await pool.query(query, values);
+            } else {
+                const query =
+                    `DELETE FROM classroom WHERE instructed = $1`;
+                const values = [user._id];
+                await pool.query(query, values);
+            }
+
             // Self-managed entity deletion
             const query =
                 `DELETE FROM ${this.tableName} WHERE uid = $1 RETURNING *`;
