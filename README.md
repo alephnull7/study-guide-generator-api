@@ -264,12 +264,7 @@ Below are the defined routes and expected behavior by the API.
   }
   ```
 * DELETE
-  * `/api/classroom`: deletes the classroom corresponding to the information in the below body
-  ```json lines
-  {
-  "id": int
-  }
-  ```  
+  * `/api/classrooms/:id`: deletes the classroom corresponding to `id`.
 
 ## Contributing
 
