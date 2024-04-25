@@ -153,30 +153,13 @@ class ArtifactModel {
         return rows;
     }
 
-    async getTemplates(userData) {
+    async getTemplates() {
         let query =
             `SELECT artifact_template._id AS id, artifact_template.name AS name, course.name AS course, department.name AS department, CONCAT(department.short_name, ' ', course.number) AS course_code
             FROM artifact_template
             JOIN course ON artifact_template.course = course._id
             JOIN department ON course.department = department._id`;
-        const values = [];
-
-        const filterFields = ['department', 'course'];
-        let index = 1;
-        for (const key in userData) {
-            if (!filterFields.includes(key)) {
-                continue;
-            }
-            if (index === 1) {
-                query += ` WHERE `;
-            } else {
-                query += ` AND `;
-            }
-            query += `${key} = $${index}`;
-            values.push(userData[key]);
-        }
-
-        const { rows } = await pool.query(query, values);
+        const { rows } = await pool.query(query);
         if (rows.length === 0) {
             return 1;
         }
