@@ -202,6 +202,8 @@ Below are the defined routes and expected behavior by the API.
   * `/api/artifacts/courses`: returns the records for all courses
   * `/api/artifacts/departments/courses/:id`: returns the courses for the department corresponding to `id`
   * `/api/artifacts/templates`: returns the records for all templates
+  * `/api/artifacts/templates/study-guides`: returns the records for all study guide templates
+  * `/api/artifacts/templates/quizzes`: returns the records for all quiz templates
   * `/api/artifacts/templates/courses/:id`: returns the templates for the course corresponding to `id`
   * `/api/artifacts/templates/departments/:id`: returns the templates for the department corresponding to `id`
   * `/api/artifacts/templates/:id`: returns the template corresponding to `id`
