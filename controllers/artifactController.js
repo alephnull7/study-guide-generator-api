@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/templates', async (req, res) => {
-    await controlService(req, res, artifactService.getTemplates(req.body));
+    await controlService(req, res, artifactService.getTemplates());
 });
 
 router.get('/courses', async (req, res) => {

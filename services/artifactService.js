@@ -48,8 +48,8 @@ class ArtifactService {
         return await serviceModel(userData, neededFields, artifactModel.readUserAssignedQuizzes(userData));
     }
 
-    async getTemplates(userData) {
-        return await serviceModel(userData, [], artifactModel.getTemplates(userData));
+    async getTemplates() {
+        return await serviceModel({}, [], artifactModel.getTemplates());
     }
 
     async getTemplate(userData) {
