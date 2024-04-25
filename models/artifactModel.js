@@ -166,6 +166,34 @@ class ArtifactModel {
         return rows;
     }
 
+    async getStudyGuideTemplates() {
+        let query =
+            `SELECT ${this.templateSelect()}
+            FROM artifact_template
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
+            WHERE artifact_template.type = 1`;
+        const { rows } = await pool.query(query);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
+    async getQuizTemplates() {
+        let query =
+            `SELECT ${this.templateSelect()}
+            FROM artifact_template
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
+            WHERE artifact_template.type = 2`;
+        const { rows } = await pool.query(query);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
     async getTemplate(userData) {
         const query =
             `SELECT * FROM artifact_template
