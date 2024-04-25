@@ -1,6 +1,4 @@
 const pool = require('../config/db');
-const serviceModel = require("../services/helpers/helpers");
-const UserModel = require("./userModel");
 
 class ClassroomModel {
     constructor() {
@@ -8,13 +6,10 @@ class ClassroomModel {
     }
 
     async createClassroom(classroomData) {
-        const tempData = { uid: classroomData.uid };
-        const user = await serviceModel(tempData, ['uid'], new UserModel().getUser(tempData));
-
         // create classroom
         const query =
             `INSERT INTO ${this.tableName} (name, instructed, course) VALUES ($1, $2, $3) RETURNING *`;
-        const values = [classroomData.name, user._id, classroomData.course_id];
+        const values = [classroomData.name, classroomData.uid, classroomData.course_id];
         const { rows } = await pool.query(query, values);
 
         // add students
