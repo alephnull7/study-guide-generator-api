@@ -78,7 +78,7 @@ class ArtifactModel {
             `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
             FROM artifact
             JOIN artifact_template ON artifact.template = artifact_template._id
-            JOIN users on artifact.owner = users._id
+            JOIN users on artifact.owner = users.uid
             WHERE users.uid = $1 AND type = 1`;
         const values = [userData.uid];
         const { rows } = await pool.query(query, values);
@@ -94,7 +94,7 @@ class ArtifactModel {
             FROM artifact
             JOIN classroom_artifact ON artifact._id = classroom_artifact.artifact_id
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
-            JOIN users ON classroom_student.student_id = users._id
+            JOIN users ON classroom_student.student_id = users.uid
             JOIN artifact_template ON artifact.template = artifact_template._id
             WHERE users.uid = $1 AND type = 1`;
         const values = [userData.uid];
@@ -126,7 +126,7 @@ class ArtifactModel {
             `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
             FROM artifact
             JOIN artifact_template ON artifact.template = artifact_template._id
-            JOIN users ON artifact.owner = users._id
+            JOIN users ON artifact.owner = users.uid
             WHERE users.uid = $1 AND type = 2`;
         const values = [userData.uid];
         const { rows } = await pool.query(query, values);
@@ -142,7 +142,7 @@ class ArtifactModel {
             FROM artifact
             JOIN classroom_artifact ON artifact._id = classroom_artifact.artifact_id
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
-            JOIN users ON classroom_student.student_id = users._id
+            JOIN users ON classroom_student.student_id = users.uid
             JOIN artifact_template ON artifact.template = artifact_template._id
             WHERE users.uid = $1 AND type = 2`;
         const values = [userData.uid];
