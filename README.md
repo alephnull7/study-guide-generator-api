@@ -215,8 +215,6 @@ Below are the defined routes and expected behavior by the API.
   ```
 * DELETE
   * `/api/artifacts/:id`: deletes the artifact corresponding to `id`.
-    An artifact that is currently assigned to a classroom can not be deleted.
-
 
 ### Classrooms
 
@@ -232,7 +230,7 @@ Below are the defined routes and expected behavior by the API.
   "uid": string, 
   "name": string,
   "course_id": string,
-  "students": [int, ...]
+  "students": [string, ...]
   }
   ```
 * PUT
@@ -247,14 +245,14 @@ Below are the defined routes and expected behavior by the API.
   ```json lines
   {
   "id": int, 
-  "students": [int, ...]
+  "students": [string, ...]
   }
   ```
   * `/api/classroom/students/remove`: removes students from a classroom, corresponding to a classroom `id` and student id array
   ```json lines
   {
   "id": int, 
-  "students": [int, ...]
+  "students": [string, ...]
   }
   ```
   * `/api/classroom/artifacts/add`: adds an artifact to a classroom, corresponding to a classroom `id` and artifact id array

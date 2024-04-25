@@ -22,7 +22,7 @@ class UserModel {
 
     async getStudents() {
         const query =
-            `SELECT _id AS id, username FROM ${this.tableName} WHERE account_type = 0`;
+            `SELECT uid, username FROM ${this.tableName} WHERE account_type = 0`;
         const { rows } = await pool.query(query);
         if (rows.length === 0) {
             return 1;
@@ -92,8 +92,10 @@ class UserModel {
             } else {
                 const classroomModel =  new ClassroomModel();
                 const classrooms = await serviceModel(userData, ['uid'], classroomModel.getClassrooms(userData));
-                for (const classroom of classrooms) {
-                    await classroomModel.deleteClassroom({ id: classroom.id });
+                if (typeof classrooms !== 'number') {
+                    for (const classroom of classrooms) {
+                        await classroomModel.deleteClassroom({ id: classroom.id });
+                    }
                 }
             }
 
