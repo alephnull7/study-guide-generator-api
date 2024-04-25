@@ -32,10 +32,10 @@ class ClassroomModel {
     async getClassroom(classroomData) {
         const query =
             `SELECT classroom._id AS classroom_id, classroom.name AS classroom_name, 
-                users._id AS student_id, users.username AS student_username
+                users.uid AS student_id, users.username AS student_username
             FROM classroom
             LEFT JOIN classroom_student ON classroom._id = classroom_student.classroom_id
-            LEFT JOIN users ON classroom_student.student_id = users._id
+            LEFT JOIN users ON classroom_student.student_id = users.uid
             WHERE classroom._id = $1`;
         const values = [classroomData.id];
         const { rows } = await pool.query(query, values);
@@ -50,7 +50,7 @@ class ClassroomModel {
             `SELECT classroom._id AS id, classroom.name AS name, course.name AS course,
                 CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
             FROM classroom
-            JOIN users ON classroom.instructed = users._id
+            JOIN users ON classroom.instructed = users.uid
             JOIN course ON classroom.course = course._id
             JOIN department on course.department = department._id
             WHERE users.uid = $1`;
@@ -67,7 +67,7 @@ class ClassroomModel {
             `SELECT classroom._id AS id, classroom.name AS name, course.name AS course,
                 CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
             FROM classroom
-            JOIN users ON classroom.instructed = users._id
+            JOIN users ON classroom.instructed = users.uid
             JOIN course ON classroom.course = course._id
             JOIN department on course.department = department._id
             WHERE users.uid = $1 AND course._id = $2`;
