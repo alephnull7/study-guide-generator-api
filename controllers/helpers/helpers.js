@@ -12,6 +12,12 @@ function relayResponse(req, res, result) {
         case 3:
             res.status(409).json({ message: 'Account Exists' });
             break;
+        case 4:
+            res.status(409).json({ message: 'Invalid Email' });
+            break;
+        case 5:
+            res.status(409).json({ message: 'Weak Password' });
+            break;
         default:
             const successCode = getSuccessCode(req.method);
             res.status(successCode).json(result);

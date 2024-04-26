@@ -31,7 +31,14 @@ class AuthModel {
             return { token, uid, username: rows[0].username, account_type: rows[0].account_type };
         } catch (e) {
             console.error(e);
-            return 3;
+            switch (e.code) {
+                case 'auth/invalid-email':
+                    return 4;
+                case 'auth/weak-password':
+                    return 5;
+                default:
+                    return 3;
+            }
         }
     }
 
