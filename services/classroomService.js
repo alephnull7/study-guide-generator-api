@@ -10,9 +10,14 @@ class ClassroomService {
         return await serviceModel(userData, neededFields, classroomModel.createClassroom(userData));
     }
 
-    async getClassroom(userData) {
+    async getClassroomStudents(userData) {
         const neededFields = ['id'];
-        return await serviceModel(userData, neededFields, classroomModel.getClassroom(userData));
+        return await serviceModel(userData, neededFields, classroomModel.getClassroomStudents(userData));
+    }
+
+    async getClassroomArtifacts(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, classroomModel.getClassroomArtifacts(userData));
     }
 
     async getClassrooms(userData) {
