@@ -24,13 +24,31 @@ class ClassroomModel {
         return rows[0];
     }
 
-    async getClassroom(classroomData) {
+    async getClassroomStudents(classroomData) {
         const query =
-            `SELECT classroom._id AS classroom_id, classroom.name AS classroom_name, 
-                users.uid AS student_id, users.username AS student_username
+            `SELECT users.uid AS uid, users.username AS username
             FROM classroom
             LEFT JOIN classroom_student ON classroom._id = classroom_student.classroom_id
             LEFT JOIN users ON classroom_student.student_id = users.uid
+            WHERE classroom._id = $1`;
+        const values = [classroomData.id];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
+    async getClassroomArtifacts(classroomData) {
+        const query =
+            `SELECT artifact._id as id, course.name AS course,
+                CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
+            FROM classroom
+            LEFT JOIN classroom_artifact ON classroom._id = classroom_artifact.classroom_id
+            LEFT JOIN artifact ON classroom_artifact.artifact_id = artifact._id
+            LEFT JOIN artifact_template ON artifact.template = artifact.template = artifact_template._id
+            LEFT JOIN course ON artifact_template.course = course._id
+            LEFT JOIN department ON course.department = department._id
             WHERE classroom._id = $1`;
         const values = [classroomData.id];
         const { rows } = await pool.query(query, values);

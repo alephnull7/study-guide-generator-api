@@ -10,11 +10,15 @@ router.post('/', async (req, res) => {
     await controlService(req, res, classroomService.createClassroom(req.body));
 });
 
-router.get('/:id', async (req, res) => {
-    await controlService(req, res, classroomService.getClassroom(req.params));
+router.get('/students/:id', async (req, res) => {
+    await controlService(req, res, classroomService.getClassroomStudents(req.params));
 });
 
-router.get('/instructors/:uid', async (req, res) => {
+router.get('/artifacts/:id', async (req, res) => {
+    await controlService(req, res, classroomService.getClassroomArtifacts(req.params));
+});
+
+router.get('/:uid', async (req, res) => {
     await controlService(req, res, classroomService.getClassrooms(req.params));
 });
 
