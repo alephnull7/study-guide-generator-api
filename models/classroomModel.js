@@ -41,12 +41,12 @@ class ClassroomModel {
 
     async getClassroomArtifacts(classroomData) {
         const query =
-            `SELECT artifact._id as id, course.name AS course,
+            `SELECT artifact._id as id, artifact.name AS name, course.name AS course,
                 CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
             FROM classroom
             LEFT JOIN classroom_artifact ON classroom._id = classroom_artifact.classroom_id
             LEFT JOIN artifact ON classroom_artifact.artifact_id = artifact._id
-            LEFT JOIN artifact_template ON artifact.template = artifact.template = artifact_template._id
+            LEFT JOIN artifact_template ON artifact.template = artifact_template._id
             LEFT JOIN course ON artifact_template.course = course._id
             LEFT JOIN department ON course.department = department._id
             WHERE classroom._id = $1`;
