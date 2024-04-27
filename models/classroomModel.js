@@ -58,6 +58,44 @@ class ClassroomModel {
         return rows;
     }
 
+    async getClassroomStudyGuides(classroomData) {
+        const query =
+            `SELECT artifact._id as id, artifact.name AS name, course.name AS course,
+                CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
+            FROM classroom
+            JOIN classroom_artifact ON classroom._id = classroom_artifact.classroom_id
+            JOIN artifact ON classroom_artifact.artifact_id = artifact._id
+            JOIN artifact_template ON artifact.template = artifact_template._id
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
+            WHERE classroom._id = $1 AND type = 1`;
+        const values = [classroomData.id];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
+    async getClassroomQuizzes(classroomData) {
+        const query =
+            `SELECT artifact._id as id, artifact.name AS name, course.name AS course,
+                CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
+            FROM classroom
+            JOIN classroom_artifact ON classroom._id = classroom_artifact.classroom_id
+            JOIN artifact ON classroom_artifact.artifact_id = artifact._id
+            JOIN artifact_template ON artifact.template = artifact_template._id
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
+            WHERE classroom._id = $1 AND type = 2`;
+        const values = [classroomData.id];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
     async getClassrooms(classroomData) {
         const query =
             `SELECT classroom._id AS id, classroom.name AS name, course.name AS course,
