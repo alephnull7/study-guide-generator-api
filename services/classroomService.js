@@ -20,6 +20,16 @@ class ClassroomService {
         return await serviceModel(userData, neededFields, classroomModel.getClassroomArtifacts(userData));
     }
 
+    async getClassroomStudyGuides(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, classroomModel.getClassroomStudyGuides(userData));
+    }
+
+    async getClassroomQuizzes(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, classroomModel.getClassroomQuizzes(userData));
+    }
+
     async getClassrooms(userData) {
         const neededFields = ['uid'];
         return await serviceModel(userData, neededFields, classroomModel.getClassrooms(userData));

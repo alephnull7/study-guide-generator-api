@@ -14,6 +14,14 @@ router.get('/students/:id', async (req, res) => {
     await controlService(req, res, classroomService.getClassroomStudents(req.params));
 });
 
+router.get('/artifacts/study-guides/:id', async (req, res) => {
+    await controlService(req, res, classroomService.getClassroomStudyGuides(req.params));
+});
+
+router.get('/artifacts/quizzes/:id', async (req, res) => {
+    await controlService(req, res, classroomService.getClassroomQuizzes(req.params));
+});
+
 router.get('/artifacts/:id', async (req, res) => {
     await controlService(req, res, classroomService.getClassroomArtifacts(req.params));
 });
