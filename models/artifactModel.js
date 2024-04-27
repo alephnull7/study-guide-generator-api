@@ -70,9 +70,12 @@ class ArtifactModel {
 
     async readUserOwnedStudyGuides(userData) {
         const query =
-            `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
+            `SELECT artifact._id as id, artifact.name AS name, course.name AS course,
+                CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
             FROM artifact
             JOIN artifact_template ON artifact.template = artifact_template._id
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
             JOIN users on artifact.owner = users.uid
             WHERE users.uid = $1 AND type = 1`;
         const values = [userData.uid];
@@ -85,12 +88,15 @@ class ArtifactModel {
 
     async readUserAssignedStudyGuides(userData) {
         const query =
-            `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
+            `SELECT artifact._id as id, artifact.name AS name, course.name AS course,
+                CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
             FROM artifact
             JOIN classroom_artifact ON artifact._id = classroom_artifact.artifact_id
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
             JOIN users ON classroom_student.student_id = users.uid
             JOIN artifact_template ON artifact.template = artifact_template._id
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
             WHERE users.uid = $1 AND type = 1`;
         const values = [userData.uid];
         const { rows } = await pool.query(query, values);
@@ -118,10 +124,13 @@ class ArtifactModel {
 
     async readUserOwnedQuizzes(userData) {
         const query =
-            `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
+            `SELECT artifact._id as id, artifact.name AS name, course.name AS course,
+            CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
             FROM artifact
             JOIN artifact_template ON artifact.template = artifact_template._id
-            JOIN users ON artifact.owner = users.uid
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
+            JOIN users on artifact.owner = users.uid
             WHERE users.uid = $1 AND type = 2`;
         const values = [userData.uid];
         const { rows } = await pool.query(query, values);
@@ -133,12 +142,15 @@ class ArtifactModel {
 
     async readUserAssignedQuizzes(userData) {
         const query =
-            `SELECT artifact._id AS id, artifact_template.type AS type, artifact.name AS name, artifact.content AS content
+            `SELECT artifact._id as id, artifact.name AS name, course.name AS course,
+            CONCAT(department.short_name, ' ', course.number) AS code, department.name AS department
             FROM artifact
             JOIN classroom_artifact ON artifact._id = classroom_artifact.artifact_id
             JOIN classroom_student ON classroom_artifact.classroom_id = classroom_student.classroom_id
             JOIN users ON classroom_student.student_id = users.uid
             JOIN artifact_template ON artifact.template = artifact_template._id
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
             WHERE users.uid = $1 AND type = 2`;
         const values = [userData.uid];
         const { rows } = await pool.query(query, values);
