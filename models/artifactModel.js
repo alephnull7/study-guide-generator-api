@@ -327,7 +327,7 @@ class ArtifactModel {
     }
 
     templateOrder() {
-        return "ORDER BY (REGEXP_MATCH(artifact_template.name, '[0-9]+'))[1]::INTEGER";
+        return "ORDER BY (REGEXP_MATCH(artifact_template.name, '[0-9]+'))[1]::INTEGER, artifact_template.name";
     }
 }
 
