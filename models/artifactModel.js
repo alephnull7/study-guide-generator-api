@@ -165,7 +165,8 @@ class ArtifactModel {
             `SELECT ${this.templateSelect()}
             FROM artifact_template
             JOIN course ON artifact_template.course = course._id
-            JOIN department ON course.department = department._id`;
+            JOIN department ON course.department = department._id
+            ${this.templateOrder()}`;
         const { rows } = await pool.query(query);
         if (rows.length === 0) {
             return 1;
@@ -179,7 +180,8 @@ class ArtifactModel {
             FROM artifact_template
             JOIN course ON artifact_template.course = course._id
             JOIN department ON course.department = department._id
-            WHERE artifact_template.type = 1`;
+            WHERE artifact_template.type = 1
+            ${this.templateOrder()}`;
         const { rows } = await pool.query(query);
         if (rows.length === 0) {
             return 1;
@@ -193,7 +195,8 @@ class ArtifactModel {
             FROM artifact_template
             JOIN course ON artifact_template.course = course._id
             JOIN department ON course.department = department._id
-            WHERE artifact_template.type = 2`;
+            WHERE artifact_template.type = 2
+            ${this.templateOrder()}`;
         const { rows } = await pool.query(query);
         if (rows.length === 0) {
             return 1;
@@ -220,7 +223,8 @@ class ArtifactModel {
             JOIN course ON artifact_template.course = course._id
             JOIN department ON course.department = department._id
             JOIN artifact_type ON artifact_template.type = artifact_type._id
-            WHERE course._id = $1`;
+            WHERE course._id = $1
+            ${this.templateOrder()}`;
         const values = [userData.id];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
@@ -236,7 +240,8 @@ class ArtifactModel {
             JOIN course ON artifact_template.course = course._id
             JOIN department ON course.department = department._id
             JOIN artifact_type ON artifact_template.type = artifact_type._id
-            WHERE department._id = $1`;
+            WHERE department._id = $1
+            ${this.templateOrder()}`;
         const values = [userData.id];
         const { rows } = await pool.query(query, values);
         if (rows.length === 0) {
@@ -319,6 +324,10 @@ class ArtifactModel {
             course.name AS course, 
             department.name AS department, 
             CONCAT(department.short_name, ' ', course.number) AS course_code`;
+    }
+
+    templateOrder() {
+        return "ORDER BY (REGEXP_MATCH(artifact_template.name, '[0-9]+'))[1]::INTEGER";
     }
 }
 
