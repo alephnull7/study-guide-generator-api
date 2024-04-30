@@ -70,6 +70,16 @@ class ArtifactService {
         return await serviceModel(userData, neededFields, artifactModel.getTemplatesForCourse(userData));
     }
 
+    async getStudyGuideTemplatesForCourse(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, artifactModel.getStudyGuideTemplatesForCourse(userData));
+    }
+
+    async getQuizTemplatesForCourse(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, artifactModel.getQuizTemplatesForCourse(userData));
+    }
+
     async getTemplatesForDepartment(userData) {
         const neededFields = ['id'];
         return await serviceModel(userData, neededFields, artifactModel.getTemplatesForDepartment(userData));

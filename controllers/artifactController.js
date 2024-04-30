@@ -66,6 +66,14 @@ router.get('/templates/:id', async (req, res) => {
     await controlService(req, res, artifactService.getTemplate(req.params));
 });
 
+router.get('/templates/courses/study-guides/:id', async (req, res) => {
+    await controlService(req, res, artifactService.getStudyGuideTemplatesForCourse(req.params));
+});
+
+router.get('/templates/courses/quizzes/:id', async (req, res) => {
+    await controlService(req, res, artifactService.getQuizTemplatesForCourse(req.params));
+});
+
 router.get('/templates/courses/:id', async (req, res) => {
     await controlService(req, res, artifactService.getTemplatesForCourse(req.params));
 });

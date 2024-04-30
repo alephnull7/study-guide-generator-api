@@ -233,6 +233,40 @@ class ArtifactModel {
         return rows;
     }
 
+    async getStudyGuideTemplatesForCourse(userData) {
+        const query =
+            `SELECT ${this.templateSelect()}
+            FROM artifact_template
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
+            JOIN artifact_type ON artifact_template.type = artifact_type._id
+            WHERE course._id = $1 AND artifact_template.type = 1
+            ${this.templateOrder()}`;
+        const values = [userData.id];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
+    async getQuizTemplatesForCourse(userData) {
+        const query =
+            `SELECT ${this.templateSelect()}
+            FROM artifact_template
+            JOIN course ON artifact_template.course = course._id
+            JOIN department ON course.department = department._id
+            JOIN artifact_type ON artifact_template.type = artifact_type._id
+            WHERE course._id = $1 AND artifact_template.type = 2
+            ${this.templateOrder()}`;
+        const values = [userData.id];
+        const { rows } = await pool.query(query, values);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
     async getTemplatesForDepartment(userData) {
         const query =
             `SELECT ${this.templateSelect()}
