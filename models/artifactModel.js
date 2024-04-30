@@ -318,6 +318,16 @@ class ArtifactModel {
         return rows;
     }
 
+    async getTypes() {
+        const query =
+            `SELECT _id AS id, name FROM artifact_type`;
+        const { rows } = await pool.query(query);
+        if (rows.length === 0) {
+            return 1;
+        }
+        return rows;
+    }
+
     async deleteArtifact(userData) {
         try {
             const values = [userData.id];

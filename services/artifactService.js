@@ -98,6 +98,10 @@ class ArtifactService {
         return await serviceModel({}, [], artifactModel.getDepartments());
     }
 
+    async getTypes() {
+        return await serviceModel({}, [], artifactModel.getTypes());
+    }
+
     async deleteArtifact(userData) {
         const neededFields = ['id'];
         return await serviceModel(userData, neededFields, artifactModel.deleteArtifact(userData));

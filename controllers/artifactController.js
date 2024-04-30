@@ -26,6 +26,11 @@ router.get('/departments', async (req, res) => {
     await controlService(req, res, artifactService.getDepartments())
 });
 
+router.get('/types', async (req, res) => {
+    console.log(req);
+    await controlService(req, res, artifactService.getTypes())
+});
+
 router.get('/:id', async (req, res) => {
     await controlService(req, res, artifactService.readArtifact(req.params));
 });
