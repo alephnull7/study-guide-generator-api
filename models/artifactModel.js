@@ -2,6 +2,7 @@ const pool = require('../config/db');
 const createArtifact = require('../artifactGeneration/artifactCreation');
 const serviceModel = require("../services/helpers/helpers");
 const ClassroomModel = require("./classroomModel");
+const PDFDocument = require('pdfkit');
 
 class ArtifactModel {
     constructor() {
@@ -372,6 +373,58 @@ class ArtifactModel {
 
     templateOrder() {
         return "ORDER BY (REGEXP_MATCH(artifact_template.name, '[0-9]+'))[1]::INTEGER, artifact_template.name";
+    }
+
+    async getPDF(userData) {
+        const artifact = await this.readArtifact(userData);
+        if (typeof artifact === 'number') {
+            return artifact;
+        }
+
+        const doc = new PDFDocument();
+
+        // Artifact title
+        const titleSize = 24;
+        doc.fontSize(titleSize);
+        const artifactName = artifact.name;
+        const textWidth = doc.widthOfString(artifactName);
+        const xTitle = (doc.page.width - textWidth) / 2;
+        doc.font('Times-Roman').fontSize(titleSize).text(artifactName, xTitle, doc.y);
+        doc.fontSize(12);
+
+        // Content of artifact
+        const vertDelta = 25;
+        const horizontal = 50;
+        for (const problem of artifact.content.problems) {
+            const question = problem.question;
+            const answer = problem.answer;
+            const contentHeight = doc.heightOfString(question) + doc.heightOfString(answer) + vertDelta;
+
+            const remainingSpace = doc.page.height - doc.y;
+            console.log(contentHeight, remainingSpace);
+            if (remainingSpace < contentHeight) {
+                doc.addPage();
+            }
+            console.log(doc.y);
+
+            doc.font('Helvetica-Bold').text(question, horizontal, doc.y + vertDelta * 2);
+            doc.font('Helvetica').text(answer, horizontal, doc.y + vertDelta);
+        }
+
+        // Create Buffer to used in response
+        const buffers = [];
+        doc.on('data', buffers.push.bind(buffers));
+        doc.end();
+
+        await new Promise((resolve, reject) => {
+            doc.on('end', resolve);
+            doc.on('error', reject);
+        });
+
+        return {
+            buffer: Buffer.concat(buffers),
+            name: artifact.name
+        };
     }
 }
 

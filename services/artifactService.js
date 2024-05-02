@@ -111,6 +111,11 @@ class ArtifactService {
         const neededFields = ['id', 'name'];
         return await serviceModel(userData, neededFields, artifactModel.updateArtifact(userData));
     }
+
+    async getPDF(userData) {
+        const neededFields = ['id'];
+        return await serviceModel(userData, neededFields, artifactModel.getPDF(userData));
+    }
 }
 
 module.exports = new ArtifactService();
