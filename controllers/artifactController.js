@@ -35,6 +35,10 @@ router.get('/:id', async (req, res) => {
     await controlService(req, res, artifactService.readArtifact(req.params));
 });
 
+router.get('/pdf/:id', async (req, res) => {
+    await controlService(req, res, artifactService.getPDF(req.params));
+});
+
 router.get('/study-guides/:uid', async (req, res) => {
     await controlService(req, res, artifactService.readUserStudyGuides(req.params));
 });

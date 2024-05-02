@@ -1,4 +1,12 @@
 function relayResponse(req, res, result) {
+    if (result.hasOwnProperty('buffer')) {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${result.name}.pdf"`);
+        res.status(200);
+        res.send(result.buffer);
+        return;
+    }
+
     switch (result) {
         case 0:
             res.status(400).json({ message: 'Bad Request' });
