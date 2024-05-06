@@ -1,3 +1,10 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for executing queries to the PostgreSQL pool connection relating to artifacts.
+        Additionally, one of the class methods indirectly calls an OpenAI connection.
+*/
+
 const pool = require('../config/db');
 const createArtifact = require('../artifactGeneration/artifactCreation');
 const serviceModel = require("../services/helpers/helpers");

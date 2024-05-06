@@ -1,3 +1,10 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for creating an OpenAI API connection,
+        and calling the API to generate a JSON output given an array of JSON messages
+*/
+
 require('dotenv').config();
 const fs = require('fs');
 const OpenAI = require("openai");

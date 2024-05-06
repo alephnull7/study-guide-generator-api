@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for providing requests to the ClassroomModel
+*/
+
 const ClassroomModel = require('../models/classroomModel');
 const serviceModel = require("./helpers/helpers");
 const classroomModel = new ClassroomModel();

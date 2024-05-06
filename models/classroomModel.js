@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for executing queries to the PostgreSQL pool connection relating to classrooms
+*/
+
 const pool = require('../config/db');
 
 class ClassroomModel {

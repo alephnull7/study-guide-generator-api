@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for providing requests to the UserModel
+*/
+
 const UserModel = require('../models/userModel');
 const serviceModel = require("./helpers/helpers");
 const userModel = new UserModel();
