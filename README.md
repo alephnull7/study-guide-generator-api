@@ -23,23 +23,28 @@ This README provides an overview of the backend structure, dependencies, and how
 study-guide-generator_api/
 ├── artifactGeneration/
 │   ├── artifactCreation.js
+├── config/
+│   ├── db.js
+│   ├── fireBase.js
 ├── controllers/
 │   ├── helpers/
 │   │   ├── helpers.js
 │   ├── artifactController.js
+│   ├── authController.js
 │   └── classroomController.js
 │   └── userController.js
-├── config/
-│   ├── db.js
-│   ├── fireBase.js
+├── middleware/
+│   ├── authentication.js
 ├── models/
 │   ├── artifactModel.js
+│   ├── authModel.js
 │   └── classroomModel.js
 │   └── userModel.js
 ├── services/
 │   ├── helpers/
 │   │   ├── helpers.js
 │   ├── artifactService.js
+│   ├── authService.js
 │   └── classroomService.js
 │   └── userService.js
 ├── test/
@@ -53,7 +58,8 @@ study-guide-generator_api/
 * `server.js`: Entry point to API and routing to the entity-based controllers
 * `controllers/`: Routes entity traffic to corresponding service based upon additional path specification and request type
 * `services/`: Performs request validation and calls the appropriate model
-* `models/`: Queries the database corresponding to valid request
+* `models/`: Queries the database, Firebase, and OpenAI corresponding to valid request
+* `middleware/authentication.js`: Responsible for validating the credentials of most requests
 * `config/db.js`: Connection to the database, with configuration thereof by environment variables
 * `config/fireBase.js`: Connection to Firebase authentication, with configuration thereof by environment variables
 * `artifactGeneration`: Modules related to creation of artifacts using OpenAI
@@ -67,6 +73,7 @@ study-guide-generator_api/
 * `dotenv`
 * `express`
 * `firebase`
+* `firebase-admin`
 * `openai`
 * `pg`
 
@@ -145,6 +152,14 @@ Below are the defined routes and expected behavior by the API.
   "password": string,
   }
   ```
+  * Success responses to these two requests will contain a body of the form
+  ```json lines
+  {
+  "token": string,
+  "username": string,
+  "account_type": int
+  }
+  ```
 
 ### Users
 
@@ -152,6 +167,7 @@ Below are the defined routes and expected behavior by the API.
 
 * GET
   * `/api/users/students`: returns the records for student users
+  * `/api/users/:uid`: returns the record for the user corresponding to `uid`
 
 * PUT
   * `/api/users`: updates the user corresponding to the information in the below body.
@@ -185,13 +201,14 @@ Below are the defined routes and expected behavior by the API.
   * `/api/artifacts`: creates the artifact corresponding to the information in the below body
   ```json lines
   {
-  "uid": int,
+  "uid": string,
   "template_id": int,
   "name": string,
   "classrooms": [int, ...]
   }
   ```
 * GET
+  * `/api/artifacts/:id`: returns the artifact corresponding to `id`
   * `/api/artifacts/study-guides/:uid`: returns the study guides for the user corresponding to `uid`
   * `/api/artifacts/study-guides/owned/:uid`: returns the study guides that are owned by the user corresponding to `uid`
   * `/api/artifacts/study-guides/assigned/:uid`: returns the study guides that have been assigned to user corresponding to `uid`
@@ -205,8 +222,11 @@ Below are the defined routes and expected behavior by the API.
   * `/api/artifacts/templates/study-guides`: returns the records for all study guide templates
   * `/api/artifacts/templates/quizzes`: returns the records for all quiz templates
   * `/api/artifacts/templates/courses/:id`: returns the templates for the course corresponding to `id`
+  * `/api/artifacts/templates/courses/study-guides/:id`: returns the study guide templates for the course corresponding to `id`
+  * `/api/artifacts/templates/courses/quizzes/:id`: returns the study guide templates for the course corresponding to `id`
   * `/api/artifacts/templates/departments/:id`: returns the templates for the department corresponding to `id`
   * `/api/artifacts/templates/:id`: returns the template corresponding to `id`
+  * `/api/artifacts/types`: returns the records for the types of artifact templates
 * PUT
   * `/api/artifacts`: updates the artifact corresponding to the information in the below body
   ```json lines
@@ -225,6 +245,9 @@ Below are the defined routes and expected behavior by the API.
 * GET
   * `/api/classrooms/students/:id`: returns the students for the classroom corresponding to `id`
   * `/api/classrooms/artifacts/:id`: returns the artifacts for the classroom corresponding to `id`
+  * `/api/classrooms/artifacts/study-guides/:id`: returns the study guides for the classroom corresponding to `id`
+  * `/api/classrooms/artifacts/quizzes/:id`: returns the quizzes for the classroom corresponding to `id`
+  * `/api/classrooms/artifacts/:id`: returns the artifacts for the classroom corresponding to `id`
   * `/api/classrooms/:uid`: returns the classrooms instructed by user corresponding to `uid`
   * `/api/classrooms/:uid/:course`: returns the classrooms instructed by user corresponding to `uid` and for the course corresponding to `course`
 
@@ -234,7 +257,7 @@ Below are the defined routes and expected behavior by the API.
   {
   "uid": string, 
   "name": string,
-  "course_id": string,
+  "course_id": int,
   "students": [string, ...]
   }
   ```
