@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for providing requests to the AuthModel
+*/
+
 const AuthModel = require('../models/authModel');
 const serviceModel = require("./helpers/helpers");
 const authModel = new AuthModel();

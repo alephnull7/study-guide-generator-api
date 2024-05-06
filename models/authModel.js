@@ -1,3 +1,10 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for executing queries to the PostgreSQL pool and Firebase connections to
+        create and login users
+*/
+
 const pool = require('../config/db');
 const { auth } = require('../config/fireBase');
 const { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } = require("firebase/auth");

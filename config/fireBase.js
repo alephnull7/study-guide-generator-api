@@ -1,3 +1,10 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for initializing Firebase connections for validating credentials,
+        creating users, updating users, and deleting users
+*/
+
 require('dotenv').config();
 const { initializeApp } = require('firebase/app');
 const { getAuth } = require('firebase/auth');

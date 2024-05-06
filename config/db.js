@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for initializing a PostgresQL connection to be used by models
+*/
+
 require('dotenv').config();
 const { Pool } = require('pg');
 

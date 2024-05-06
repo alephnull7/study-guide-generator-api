@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for routing and initializing service requests for users
+*/
+
 const express = require('express');
 const router = express.Router();
 const userService = require('../services/userService');

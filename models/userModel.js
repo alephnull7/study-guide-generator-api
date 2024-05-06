@@ -1,3 +1,11 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for executing `SELECT` queries to the PostgreSQL pool connection for user entities.
+        Additionally, other methods involve executing queries to the PostgreSQL pool and Firebase connections to
+        update and delete users.
+*/
+
 const pool = require('../config/db');
 const { getAuth } = require('firebase-admin/auth');
 const ArtifactModel = require("./artifactModel");

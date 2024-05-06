@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for handling all controller requests in a uniform way
+*/
+
 function relayResponse(req, res, result) {
     if (result.hasOwnProperty('buffer')) {
         res.setHeader('Content-Type', 'application/pdf');

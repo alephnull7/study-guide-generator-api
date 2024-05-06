@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for initializing the Express API, including defining base routing and middleware
+*/
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const userController = require('./controllers/userController');

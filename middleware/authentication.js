@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for authenticating requests using a Firebase admin connection
+*/
+
 const { admin } = require('../config/fireBase');
 const controlService = require('../controllers/helpers/helpers');
 

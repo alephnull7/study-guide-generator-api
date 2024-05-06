@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for providing requests to the ArtifactModel
+*/
+
 const ArtifactModel = require('../models/artifactModel');
 const serviceModel = require("./helpers/helpers");
 const artifactModel = new ArtifactModel();
