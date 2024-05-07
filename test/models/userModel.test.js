@@ -1,36 +1,46 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+*/
+
 const UserModel = require('../../models/userModel');
+const AuthModel = require('../../models/authModel');
 
 describe("getUser", () => {
-    it("should return the user info for the user with the given userId", async () => {
+    it("should return the user info for the user with the given uid", async () => {
         const userModel = new UserModel();
-        const requestObj = { id: 1 };
+        const requestObj = { uid: 'VJMsu4WDqbZNQpgRTbJ6SuSuvcq2' };
         const response = await userModel.getUser(requestObj);
-        expect(response.email).toEqual('email@domain.ext');
+        expect(response.username).toEqual('jane.smith');
     });
 });
 
 describe("handleUser", () => {
     it("should create, update, and then delete a new user", async () => {
-        const userModel = new UserModel();
+        const authModel = new AuthModel();
         const requestObj = {
-            email: 'test@text.ext',
-            account_type: 0,
-            password: 'none'
+            email: 'elton.john@example.ext',
+            password: 'tinydance',
+            account_type: 0
         };
 
         // test creation
-        const userObj = await userModel.createUser(requestObj);
-        expect(userObj.email).toEqual(requestObj.email);
+        const userObj = await authModel.createUser(requestObj);
+        expect(userObj.username).toEqual('elton.john');
+        expect(userObj.account_type).toEqual(0);
+        expect(typeof userObj.uid).toEqual('string');
+        expect(typeof userObj.token).toEqual('string');
 
         // test update
-        requestObj.email += '2';
-        requestObj.id = userObj._id;
+        const userModel = new UserModel();
+        requestObj.username = 'john.elton';
+        requestObj.uid = userObj.uid;
         let response = await userModel.updateUser(requestObj);
-        expect(response._id).toEqual(requestObj.id);
-        expect(response.email).toEqual(requestObj.email);
+        expect(response.uid).toEqual(requestObj.uid);
+        expect(response.username).toEqual(requestObj.username);
 
         // test deletion
         response = await userModel.deleteUser(requestObj);
-        expect(response._id).toEqual(requestObj.id);
+        expect(response.uid).toEqual(requestObj.uid);
     }, 10000);
 });

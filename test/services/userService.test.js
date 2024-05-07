@@ -1,3 +1,8 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+*/
+
 const userService = require('../../services/userService');
 
 // GET
@@ -28,32 +33,6 @@ describe("userGetInvalid", () => {
         userService.getUser = jest.fn().mockResolvedValue(invalidResponse);
         const requestObj = {};
         const response = await userService.getUser(requestObj);
-        expect(response).toEqual(0);
-    });
-});
-
-// POST
-
-describe("userPostValid", () => {
-    it("should return an object", async () => {
-        const validResponse = { id: 6, email: "email" };
-        userService.createUser = jest.fn().mockResolvedValue(validResponse);
-        const requestObj = {
-            email: 'test@text.ext',
-            account_type: 0,
-            password: 'none'
-        };
-        const response = await userService.createUser(requestObj);
-        expect(response).toEqual(expect.any(Object));
-    });
-});
-
-describe("userPostInvalid", () => {
-    it("should return 0", async () => {
-        const invalidResponse = 0;
-        userService.createUser = jest.fn().mockResolvedValue(invalidResponse);
-        const requestObj = {};
-        const response = await userService.createUser(requestObj);
         expect(response).toEqual(0);
     });
 });
